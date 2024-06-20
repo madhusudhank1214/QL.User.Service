@@ -13,5 +13,6 @@ namespace QL.Infra.Models.Employee
         public required string Email { get; set; }
         public int RoleId { get; set; }
         public string? ProjectID { get; set; }
+        public int MobileNumber { get; set; }
     }
 }
