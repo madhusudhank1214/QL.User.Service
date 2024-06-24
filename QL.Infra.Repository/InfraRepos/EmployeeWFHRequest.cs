@@ -1,30 +1,46 @@
-﻿using QL.Infra.Models.Employee;
+﻿using Microsoft.Extensions.Configuration;
+using QL.Infra.Models.Constants;
+using QL.Infra.Models.Dto;
+using QL.Infra.Models.Employee;
 using QL.Infra.Repository.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static Dapper.SqlMapper;
 
 namespace QL.Infra.Repository.InfraRepos
 {
     public class EmployeeWFHRequest : IEmployeeWFHRequest,IDisposable
     {
+        private readonly IConfiguration configuration;
+
+        public EmployeeWFHRequest(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
         public WFHRequests AddWFHRequestsByEmployee(string EmployeeID)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<QLEmployee> GetAllEmployees()
+        public async Task<IEnumerable<QLEmployee>> GetAllEmployees()
         {
-            List<QLEmployee> _qlemployees = new()
-            { 
-                new() { Email="mkasarapu@qentelli.com", EmployeeId= "QE1901", EmployeeName="Madhu"  },
-                new() { Email="raju@qentelli.com", EmployeeId= "QE1902", EmployeeName="Raju"  },
-                new() { Email="rani@qentelli.com", EmployeeId= "QE1903", EmployeeName="Rani"  }
-            };
-            return _qlemployees;
+            List<QLEmployee> _qlemployees;
+            var sql = "SELECT EmpId AS EmployeeId,Name, Email, RoleId, ProjectId,MobileNumber  FROM QLEmployees";
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result =  await connection.QueryAsync<QLEmployee>(sql);
+                return (IEnumerable<QLEmployee>)result;
+            }
+            //return _qlemployees;
         }
         public IEnumerable<WFHRequests> GetAllWFHRequests()
         {
@@ -55,6 +71,91 @@ namespace QL.Infra.Repository.InfraRepos
                 disposing = true;
             }
 
+        }
+
+        public async Task<IEnumerable<RequestsDto>> GetAllRequestDetails()
+        {
+            IEnumerable<RequestsDto> result;
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetAllRequestsDetails";
+                     result= await connection.QueryAsync<RequestsDto>(spName, commandType: CommandType.StoredProcedure);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<RequestsDto>> GetAllRequestsByProjectId(string projectId)
+        {
+            IEnumerable<RequestsDto> result;
+            try
+            {
+                var parameters = new { ProjectId = projectId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetAllRequestsByProjectId";
+                    result = await connection.QueryAsync<RequestsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<RequestsDto>> GetAllRequestsByEmployeeId(string employeeId)
+        {
+            IEnumerable<RequestsDto> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetAllRequestsByEmployeeId";
+                    result = await connection.QueryAsync<RequestsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<RequestsDto>> SaveRequests(WFHRequests request)
+        {
+            IEnumerable<RequestsDto> result;
+            try
+            {
+                var parameters = new { EmployeeId = request.EmployeeId, Status =  RequestStatus.Created,
+                    Comments= request.Comments, FromDate= request.FromDate, ToDate= request.ToDate, RequestType = RequestTypes.WFH
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "SaveRequest";
+                    result = await connection.QueryAsync<RequestsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
     }
 }

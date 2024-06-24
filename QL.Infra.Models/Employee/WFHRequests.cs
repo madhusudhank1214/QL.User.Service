@@ -8,7 +8,7 @@ namespace QL.Infra.Models.Employee
 {
     public class WFHRequests
     {
-        public required string RequestId { get; set; }
+       // public required int RequestId { get; set; }
         public required string EmployeeId { get; set; }
         public string? Status { get; set; }
         public string? Comments { get; set; }
@@ -40,6 +40,6 @@ namespace QL.Infra.Models.Employee
             set { this.fromDate = value; }
         }
         public DateTime ToDate { get; set; }
-        public DateTime Approved_Date { get; set; }
+        public DateTime? Approved_Date { get; set; }
     }
 }

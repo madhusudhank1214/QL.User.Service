@@ -9,10 +9,10 @@ namespace QL.Infra.Models.Employee
     public class QLEmployee
     {
         public required string EmployeeId { get; set; }
-        public required string EmployeeName { get; set; }
+        public required string Name { get; set; }
         public required string Email { get; set; }
         public int RoleId { get; set; }
-        public string? ProjectID { get; set; }
+        public int ProjectId { get; set; }
         public int MobileNumber { get; set; }
     }
 }
