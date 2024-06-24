@@ -5,9 +5,9 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.API", "UserService.API\UserService.API.csproj", "{F340DC68-66C6-44AE-A09B-8F1FB9E6A539}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL.Infra.Models", "QL.Infra.Models\QL.Infra.Models.csproj", "{A4A3CE0D-B47D-444F-899E-EF7B6739BDD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QL.Infra.Models", "QL.Infra.Models\QL.Infra.Models.csproj", "{A4A3CE0D-B47D-444F-899E-EF7B6739BDD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL.Infra.Repository", "QL.Infra.Repository\QL.Infra.Repository.csproj", "{914554F0-6B1E-4640-B569-592F0F20836D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QL.Infra.Repository", "QL.Infra.Repository\QL.Infra.Repository.csproj", "{914554F0-6B1E-4640-B569-592F0F20836D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
