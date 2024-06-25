@@ -14,7 +14,20 @@ namespace QL.Infra.Models.Dto
 
         public DateTime Requested_date { get; set; }
 
-        public DateTime Approved_date { get; set; }
+       // public DateTime? Approved_date { get; set; }
+
+        private DateTime? approveddate = null;
+        public DateTime? Approved_date
+        {
+            get
+            {
+                return approveddate.HasValue
+                   ? this.approveddate.Value
+                   : null;
+            }
+
+            set { this.approveddate = value; }
+        }
 
         public string Approver { get; set; }
 

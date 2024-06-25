@@ -40,6 +40,5 @@ namespace QL.Infra.Models.Employee
             set { this.fromDate = value; }
         }
         public DateTime ToDate { get; set; }
-        public DateTime? Approved_Date { get; set; }
     }
 }

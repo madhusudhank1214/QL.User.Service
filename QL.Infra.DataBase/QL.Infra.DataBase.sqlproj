@@ -77,5 +77,8 @@
     <Build Include="dbo\Stored Procedures\GetAllRequestsByProjectId.sql" />
     <Build Include="dbo\Stored Procedures\GetAllRequestsByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\SaveRequests.sql" />
+    <Build Include="dbo\Stored Procedures\GetStatus.sql" />
+    <Build Include="dbo\Stored Procedures\GetRequestType.sql" />
+    <Build Include="dbo\Stored Procedures\GetAppName.sql" />
   </ItemGroup>
 </Project>

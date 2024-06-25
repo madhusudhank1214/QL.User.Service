@@ -11,7 +11,7 @@ BEGIN
 		,QLW.Comments
 		,QLW.NoOfDays
 		,(select E.Name from QLEmployees E where ProjectId=QLE.ProjectId and 
-	RoleId=(Select Id from QLRoles where ProjectId=QLE.ProjectId and RoleName='DeliveryManager')) AS Approver
+	RoleId=(Select Id from QLRoles where ProjectId=QLE.ProjectId and RoleName='ReportingManager')) AS Approver
 	FROM QLEmployees QLE
 	JOIN QLWFHRequests QLW ON QLW.EmployeeId = QLE.Id
 	JOIN QLProjects QLP ON QLP.Id = QLE.ProjectId
