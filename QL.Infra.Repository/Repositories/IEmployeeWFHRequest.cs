@@ -1,4 +1,5 @@
-﻿using QL.Infra.Models.Employee;
+﻿using QL.Infra.Models.Dto;
+using QL.Infra.Models.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,8 @@ namespace QL.Infra.Repository.Repositories
         IEnumerable<WFHRequests> GetWFHRequestsByEmployee(string EmployeeID);
         WFHRequests AddWFHRequestsByEmployee(string EmployeeID);
         WFHRequests UpdateWFHRequestsByEmployee(string EmployeeID);
-       // Task<IEnumerable<QLApps>> GetAppName();
-        Task<IEnumerable<ResultsInput>> GetAppName();
-        Task<IEnumerable<ResultsInput>> GetRequestType();
-        Task<IEnumerable<ResultsInput>> GetStatus();
-        //Task<IEnumerable<QLRequestTypes>> GetRequestType();
-        //Task<IEnumerable<QLWFHStatus>> GetStatus();
+        Task<IEnumerable<MasterDto>> GetAppName();
+        Task<IEnumerable<MasterDto>> GetRequestType();
+        Task<IEnumerable<MasterDto>> GetStatus();
     }
 }

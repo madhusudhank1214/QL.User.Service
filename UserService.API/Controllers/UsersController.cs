@@ -34,7 +34,7 @@ namespace UserService.API.Controllers
         {
             var data = await _empWFHRequest.GetAppName();
             if (data == null) 
-            {
+            { 
                 return Ok("No Records Found");
             }
             return Ok(data);
@@ -50,6 +50,7 @@ namespace UserService.API.Controllers
             }
             return Ok(data);
         }
+
         [HttpGet("GetStatus")]
         public async Task<IActionResult> GetStatus()
         {

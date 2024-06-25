@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL.Infra.Models.Employee
+namespace QL.Infra.Models.Dto
 {
-    public class ResultsInput
+    public class MasterDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
