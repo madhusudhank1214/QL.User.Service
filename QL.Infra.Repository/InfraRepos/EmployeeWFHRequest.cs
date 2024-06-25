@@ -1,29 +1,16 @@
-﻿using Dapper;
-using Microsoft.Extensions.Configuration;
-using QL.Infra.Models.Dto;
-using QL.Infra.Models.Employee;
+﻿using QL.Infra.Models.Employee;
 using QL.Infra.Repository.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection.Metadata;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace QL.Infra.Repository.InfraRepos
 {
     public class EmployeeWFHRequest : IEmployeeWFHRequest,IDisposable
     {
-        private readonly IConfiguration configuration;
-
-        public EmployeeWFHRequest(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
         public WFHRequests AddWFHRequestsByEmployee(string EmployeeID)
         {
             throw new NotImplementedException();
@@ -68,37 +55,6 @@ namespace QL.Infra.Repository.InfraRepos
                 disposing = true;
             }
 
-        }
-        public async Task<IEnumerable<MasterDto>>GetAppName()
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            { 
-                connection.Open();
-                var spName = "GetAppName";
-                return await connection.QueryAsync<MasterDto>(spName,commandType: CommandType.StoredProcedure
-            );
-            }
-        }
-        public async Task<IEnumerable<MasterDto>> GetRequestType()
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var spName = "GetRequestType";
-                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
-            );
-            }
-        }
-
-        public async Task<IEnumerable<MasterDto>> GetStatus()
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var spName = "GetStatus";
-                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
-            );
-            }
         }
     }
 }
