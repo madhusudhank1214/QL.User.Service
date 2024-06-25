@@ -11,7 +11,6 @@ namespace UserService.API.Controllers
     {
         private readonly ILogger<UsersController> _logger;
         private IEmployeeWFHRequest _empWFHRequest;
-
         public UsersController(IEmployeeWFHRequest empWFHRequest,ILogger<UsersController> logger)
         {
             _logger = logger;
@@ -28,6 +27,39 @@ namespace UserService.API.Controllers
             List<QLEmployee> _lstqLEmployees = [];
             _lstqLEmployees = _empWFHRequest.GetAllEmployees().ToList(); 
             return _lstqLEmployees;
+        }
+
+        [HttpGet("GetAppName")]
+        public async Task<IActionResult> GetAppName()
+        {
+            var data = await _empWFHRequest.GetAppName();
+            if (data == null) 
+            { 
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
+
+        [HttpGet("GetRequestType")]
+        public async Task<IActionResult> GetRequestType()
+        {
+            var data = await _empWFHRequest.GetRequestType();
+            if (data == null)
+            {
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
+
+        [HttpGet("GetStatus")]
+        public async Task<IActionResult> GetStatus()
+        {
+            var data = await _empWFHRequest.GetStatus();
+            if (data == null)
+            {
+                return Ok("No Records Found");
+            }
+            return Ok(data);
         }
     }
 }
