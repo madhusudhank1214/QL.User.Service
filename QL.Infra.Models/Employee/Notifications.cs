@@ -16,6 +16,7 @@ namespace QL.Infra.Models.Employee
         {
             get
             {
+
                 return createdDate.HasValue
                    ? this.createdDate.Value
                    : DateTime.Now;
