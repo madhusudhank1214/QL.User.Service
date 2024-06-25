@@ -10,6 +10,10 @@ namespace QL.Infra.Models.Employee
     {
         public int RoleId { get; set; }
         public string RoleName { get; set; }
-        public string ProjectID { get; set; }
+        public int ProjectID { get; set; }
+
+        public int PermissionId { get; set; }
+
+        public int AppId { get; set; }
     }
 }
