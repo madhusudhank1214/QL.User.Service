@@ -57,6 +57,37 @@ namespace QL.Infra.Repository.InfraRepos
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<MasterDto>> GetAppName()
+        {
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var spName = "GetAppName";
+                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
+            );
+            }
+        }
+        public async Task<IEnumerable<MasterDto>> GetRequestType()
+        {
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var spName = "GetRequestType";
+                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
+            );
+            }
+        }
+        public async Task<IEnumerable<MasterDto>> GetStatus()
+        {
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var spName = "GetStatus";
+                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
+            );
+            }
+        }
+
         public void Dispose()
         {
             Dispose(true);

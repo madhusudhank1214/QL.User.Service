@@ -15,6 +15,9 @@ namespace QL.Infra.Repository.Repositories
         IEnumerable<WFHRequests> GetWFHRequestsByEmployee(string EmployeeID);
         WFHRequests AddWFHRequestsByEmployee(string EmployeeID);
         WFHRequests UpdateWFHRequestsByEmployee(string EmployeeID);
+        Task<IEnumerable<MasterDto>> GetAppName();
+        Task<IEnumerable<MasterDto>> GetRequestType();
+        Task<IEnumerable<MasterDto>> GetStatus();
         Task<IEnumerable<RequestsDto>> GetAllRequestDetails();
         Task<IEnumerable<RequestsDto>> GetAllRequestsByProjectId(string projectId);
         Task<IEnumerable<RequestsDto>> GetAllRequestsByEmployeeId(string employeeId);
