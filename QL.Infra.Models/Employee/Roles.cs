@@ -14,6 +14,6 @@ namespace QL.Infra.Models.Employee
 
         public int PermissionId { get; set; }
 
-        public int Appid { get; set; }
+        public int AppId { get; set; }
     }
 }

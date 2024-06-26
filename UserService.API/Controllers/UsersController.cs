@@ -57,5 +57,38 @@ namespace UserService.API.Controllers
             List<RequestsDto> _lstRequestsDto = [];
             return await _empWFHRequest.SaveRequests(request);
         }
+
+        [HttpGet("GetAppName")]
+        public async Task<IActionResult> GetAppName()
+        {
+            var data = await _empWFHRequest.GetAppName();
+            if (data == null) 
+            { 
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
+
+        [HttpGet("GetRequestType")]
+        public async Task<IActionResult> GetRequestType()
+        {
+            var data = await _empWFHRequest.GetRequestType();
+            if (data == null)
+            {
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
+
+        [HttpGet("GetStatus")]
+        public async Task<IActionResult> GetStatus()
+        {
+            var data = await _empWFHRequest.GetStatus();
+            if (data == null)
+            {
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
     }
 }
