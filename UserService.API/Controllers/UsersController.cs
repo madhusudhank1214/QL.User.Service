@@ -90,5 +90,16 @@ namespace UserService.API.Controllers
             }
             return Ok(data);
         }
+
+        [HttpGet("getAllRequestCountByEmployeeId")]
+        public async Task<IActionResult> GetAllRequestCountByEmployeeId(string employeeId)
+        {
+            var data = await _empWFHRequest.GetAllRequestCountByEmployeeId(employeeId);
+            if (data == null)
+            {
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
     }
 }

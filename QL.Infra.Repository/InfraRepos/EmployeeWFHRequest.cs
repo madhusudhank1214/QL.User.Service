@@ -188,5 +188,26 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
+
+        public async Task<IEnumerable<RequestCountDto>> GetAllRequestCountByEmployeeId(string employeeId)
+        {
+            IEnumerable<RequestCountDto> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetAllRequestCountByEmployeeId";
+                    result = await connection.QueryAsync<RequestCountDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

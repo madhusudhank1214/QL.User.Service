@@ -22,5 +22,6 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<RequestsDto>> GetAllRequestsByProjectId(string projectId);
         Task<IEnumerable<RequestsDto>> GetAllRequestsByEmployeeId(string employeeId);
         Task<IEnumerable<RequestsDto>> SaveRequests(WFHRequests request);
+        Task<IEnumerable<RequestCountDto>> GetAllRequestCountByEmployeeId(string employeeId);
     }
 }
