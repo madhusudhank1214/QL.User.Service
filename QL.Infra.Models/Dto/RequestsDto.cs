@@ -14,8 +14,6 @@ namespace QL.Infra.Models.Dto
 
         public DateTime Requested_date { get; set; }
 
-       // public DateTime? Approved_date { get; set; }
-
         private DateTime? approveddate = null;
         public DateTime? Approved_date
         {
@@ -36,5 +34,9 @@ namespace QL.Infra.Models.Dto
         public string Comments { get; set; }
 
         public int NoOfDays { get; set; }
+
+        public string Emp_id { get; set; }
+
+        public Guid Req_id { get; set; }
     }
 }

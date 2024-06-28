@@ -8,7 +8,7 @@ namespace QL.Infra.Models.Employee
 {
     public class WFHRequests
     {
-       // public required int RequestId { get; set; }
+        public required Guid RequestId { get; set; }
         public required string EmployeeId { get; set; }
         public string? Status { get; set; }
         public string? Comments { get; set; }

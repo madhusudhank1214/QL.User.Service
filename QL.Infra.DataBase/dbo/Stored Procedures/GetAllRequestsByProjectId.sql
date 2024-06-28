@@ -13,6 +13,8 @@ BEGIN
 		,QLW.NoOfDays
 		,(select E.Name from QLEmployees E where ProjectId=QLE.ProjectId and 
 	RoleId=(Select Id from QLRoles where ProjectId=QLE.ProjectId and RoleName='ReportingManager')) AS Approver
+	    ,QLE.EmpId AS Emp_id
+		,QLW.RequestId AS Req_id
 	FROM QLEmployees QLE
 	JOIN QLProjects QLP ON QLP.Id = QLE.ProjectId
 	JOIN QLWFHRequests QLW ON QLW.EmployeeId = QLE.Id

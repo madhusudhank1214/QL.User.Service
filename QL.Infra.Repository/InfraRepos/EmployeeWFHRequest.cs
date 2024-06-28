@@ -171,7 +171,7 @@ namespace QL.Infra.Repository.InfraRepos
             IEnumerable<RequestsDto> result;
             try
             {
-                var parameters = new { EmployeeId = request.EmployeeId, Status =  RequestStatus.Created,
+                var parameters = new { RequestId=request.RequestId, EmployeeId = request.EmployeeId, Status =  RequestStatus.Created,
                     Comments= request.Comments, FromDate= request.FromDate, ToDate= request.ToDate, RequestType = RequestTypes.WFH
                 };
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
