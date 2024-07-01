@@ -6,6 +6,8 @@
     [RoleId]       INT            NOT NULL,
     [ProjectId]    INT            NOT NULL,
     [MobileNumber] INT            NULL,
+    [AllocationDate] DATETIME NULL, 
+    [EndDate] DATETIME NULL, 
     CONSTRAINT [PK_QLEmployees] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_QLEmployees_QLProjects] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[QLProjects] ([Id]),
     CONSTRAINT [FK_QLEmployees_QLRoles] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[QLRoles] ([Id])

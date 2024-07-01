@@ -17,7 +17,5 @@ namespace QL.Infra.Models.Dto
         public string Project { get; set; }
         public DateTime Allocation_date { get; set; }
         public DateTime End_date { get; set; }
-
-        public string Id { get; set; }
     }
 }

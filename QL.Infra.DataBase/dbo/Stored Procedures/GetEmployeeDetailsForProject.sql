@@ -9,9 +9,8 @@ SELECT ROW_NUMBER() OVER (
 	,QLE.EmpId AS Emp_id
 	,QLE.Email AS Email
 	,QLP.ProjectName AS Project
-	,NULL as Allocation_date
-	,NULL as End_date
-	,NULL as Id
+	,QLE.AllocationDate as Allocation_date
+	,QLE.EndDate as End_date
 FROM QLEmployees QLE
 JOIN QLProjects QLP ON QLP.Id = QLE.ProjectId
 WHERE QLP.ProjectName = @Project
