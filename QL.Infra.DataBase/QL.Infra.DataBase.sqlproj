@@ -81,5 +81,7 @@
     <Build Include="dbo\Stored Procedures\GetRequestType.sql" />
     <Build Include="dbo\Stored Procedures\GetAppName.sql" />
     <Build Include="dbo\Stored Procedures\GetAllRequestCountByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\GetProjectsByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\GetEmployeeDetailsForProject.sql" />
   </ItemGroup>
 </Project>

@@ -209,5 +209,47 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
+
+        public async Task<IEnumerable<EmployeeProjectDetails>> GetProjectsByEmployeeId(string employeeId)
+        {
+            IEnumerable<EmployeeProjectDetails> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetProjectsByEmployeeId";
+                    result = await connection.QueryAsync<EmployeeProjectDetails>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<ProjectsEmployeeDetailsDto>> GetEmployeeDetailsForProject(string project)
+        {
+            IEnumerable<ProjectsEmployeeDetailsDto> result;
+            try
+            {
+                var parameters = new { Project = project };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetEmployeeDetailsForProject";
+                    result = await connection.QueryAsync<ProjectsEmployeeDetailsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

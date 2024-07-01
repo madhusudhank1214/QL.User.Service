@@ -33,28 +33,24 @@ namespace UserService.API.Controllers
         [HttpGet("getAllRequests")]
         public async Task<IEnumerable<RequestsDto>> GetAllRequests()
         {
-            List<RequestsDto> _lstRequestsDto = [];
             return await _empWFHRequest.GetAllRequestDetails();
         }
 
         [HttpGet("getAllRequestsByProjectId")]
         public async Task<IEnumerable<RequestsDto>> GetAllRequestsByProjectId(string projectId)
         {
-            List<RequestsDto> _lstRequestsDto = [];
             return await _empWFHRequest.GetAllRequestsByProjectId(projectId);
         }
 
         [HttpGet("getAllRequestsByEmployeeId")]
         public async Task<IEnumerable<RequestsDto>> GetAllRequestsByEmployeeId(string employeeId)
         {
-            List<RequestsDto> _lstRequestsDto = [];
             return await _empWFHRequest.GetAllRequestsByEmployeeId(employeeId);
         }
 
         [HttpPost("saveRequests")]
         public async Task<IEnumerable<RequestsDto>> SaveRequests(WFHRequests request)
         {
-            List<RequestsDto> _lstRequestsDto = [];
             return await _empWFHRequest.SaveRequests(request);
         }
 
@@ -92,14 +88,21 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet("getAllRequestCountByEmployeeId")]
-        public async Task<IActionResult> GetAllRequestCountByEmployeeId(string employeeId)
+        public async Task<IEnumerable<RequestCountDto>> GetAllRequestCountByEmployeeId(string employeeId)
         {
-            var data = await _empWFHRequest.GetAllRequestCountByEmployeeId(employeeId);
-            if (data == null)
-            {
-                return Ok("No Records Found");
-            }
-            return Ok(data);
+            return await _empWFHRequest.GetAllRequestCountByEmployeeId(employeeId);
+        }
+
+        [HttpGet("getProjectsByEmployeeId")]
+        public async Task<IEnumerable<EmployeeProjectDetails>> GetProjectsByEmployeeId(string employeeId)
+        {
+            return await _empWFHRequest.GetProjectsByEmployeeId(employeeId);
+        }
+
+        [HttpGet("getEmployeeDetailsForProject")]
+        public async Task<IEnumerable<ProjectsEmployeeDetailsDto>> GetEmployeeDetailsForProject(string project)
+        {
+            return await _empWFHRequest.GetEmployeeDetailsForProject(project);
         }
     }
 }
