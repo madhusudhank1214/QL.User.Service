@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using QL.Infra.Models.Constants;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Employee;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static Dapper.SqlMapper;
@@ -251,5 +253,65 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
+
+        public int GetRequestStatusValue(string status)
+        {
+            string requeststatus = status;
+            int requeststatusid = 0;
+            switch (status)
+            {
+                case "Approved":
+                    requeststatusid = 1;
+                    break;
+                case "Rejected":
+                    requeststatusid = 2;
+                    break;
+                case "Created":
+                    requeststatusid = 3;
+                    break;
+                case "Hold":
+                    requeststatusid = 4;
+                    break;
+                case "Read":
+                    requeststatusid = 5;
+                    break;
+                case "UnRead":
+                    requeststatusid = 6;
+                    break;
+                case "Completed":
+                    requeststatusid = 7;
+                    break;
+            }
+            return requeststatusid;
+        }
+
+        public async Task<bool> UpdateRequestStatus(Guid requestId, string status)
+        {
+            int requeststatusid= GetRequestStatusValue(status);
+            try
+            {
+
+                var parameters = new { RequestId = requestId, Status = requeststatusid };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "UpdateRequestStatus";
+                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

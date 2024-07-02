@@ -106,5 +106,11 @@ namespace UserService.API.Controllers
         {
             return await _empWFHRequest.GetEmployeeDetailsForProject(project);
         }
+
+        [HttpPut("updateRequestStatus")]
+        public async Task<bool> UpdateRequestStatus(Guid requestid, string status)
+        {
+            return await _empWFHRequest.UpdateRequestStatus(requestid, status);
+        }
     }
 }

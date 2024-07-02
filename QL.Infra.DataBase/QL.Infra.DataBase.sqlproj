@@ -83,5 +83,6 @@
     <Build Include="dbo\Stored Procedures\GetAllRequestCountByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GetProjectsByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GetEmployeeDetailsForProject.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateRequestStatus.sql" />
   </ItemGroup>
 </Project>

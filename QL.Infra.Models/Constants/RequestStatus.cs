@@ -8,6 +8,7 @@ namespace QL.Infra.Models.Constants
 {
     public class RequestStatus
     {
+
         public const int Approved = 1;
         public const int Rejected = 2;
         public const int Created = 3;
