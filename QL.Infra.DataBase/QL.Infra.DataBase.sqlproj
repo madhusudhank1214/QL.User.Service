@@ -61,6 +61,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\QLApps.sql" />
@@ -83,6 +84,9 @@
     <Build Include="dbo\Stored Procedures\GetAllRequestCountByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GetProjectsByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GetEmployeeDetailsForProject.sql" />
-    <Build Include="dbo\Stored Procedures\UpdateRequestStatus.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateRequestsStatus.sql" />
+    <Build Include="dbo\Stored Procedures\SaveNotifications.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateNotification.sql" />
   </ItemGroup>
 </Project>

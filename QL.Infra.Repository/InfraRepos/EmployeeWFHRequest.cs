@@ -285,12 +285,27 @@ namespace QL.Infra.Repository.InfraRepos
             return requeststatusid;
         }
 
+        public int GetNotificationStatusValue(string notificationStatus)
+        {
+            string status = notificationStatus;
+            int notificationStatusId = 0;
+            switch (status)
+            {
+                case "Ready":
+                    notificationStatusId = 1;
+                    break;
+                case "Sent":
+                    notificationStatusId = 2;
+                    break;
+            }
+            return notificationStatusId;
+        }
+
         public async Task<bool> UpdateRequestStatus(Guid requestId, string status)
         {
-            int requeststatusid= GetRequestStatusValue(status);
+            int requeststatusid = GetRequestStatusValue(status);
             try
             {
-
                 var parameters = new { RequestId = requestId, Status = requeststatusid };
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -313,5 +328,74 @@ namespace QL.Infra.Repository.InfraRepos
             }
         }
 
+        public async Task<bool> SaveNotifications(Notifications notificationRequest)
+        {
+            int notificationStatusId = GetNotificationStatusValue(notificationRequest.NotificationStatus);
+            try
+            {
+                var parameters = new
+                {
+                    Title = notificationRequest.Title,
+                    NotificationStatus = notificationStatusId,
+                    CreatedDate= DateTime.Now,
+                    RequestId = notificationRequest.RequestId,
+                    Read = notificationRequest.Read
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "SaveNotifications";
+                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> UpdateNotifications(Notifications notificationRequest)
+        {
+            int notificationStatusId = GetNotificationStatusValue(notificationRequest.NotificationStatus);
+            try
+            {
+                var parameters = new
+                {
+                    Title = notificationRequest.Title,
+                    NotificationStatus = notificationStatusId,
+                    ApprovedDate = notificationRequest.ApprovedDate,
+                    RequestId = notificationRequest.RequestId,
+                    Read = notificationRequest.Read
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "UpdateNotification";
+                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

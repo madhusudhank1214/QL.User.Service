@@ -10,7 +10,7 @@ namespace QL.Infra.Models.Employee
     {
         public required string NotificationId { get; set; }
         public string Title { get; set; }
-        public required string NotificationStatus { get; set; }
+        public string NotificationStatus { get; set; }
         private DateTime? createdDate = null;
         public DateTime CreatedDate
         {
@@ -24,8 +24,10 @@ namespace QL.Infra.Models.Employee
 
             set { this.createdDate = value; }
         }
-        public DateTime Approved_Date { get; set; }
+        public DateTime? ApprovedDate { get; set; }
         public required string RequestId { get; set; }
+
+        public bool Read {  get; set; }
         
     }
 }

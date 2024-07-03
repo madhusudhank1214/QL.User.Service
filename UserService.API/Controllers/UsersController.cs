@@ -112,5 +112,17 @@ namespace UserService.API.Controllers
         {
             return await _empWFHRequest.UpdateRequestStatus(requestid, status);
         }
+
+        [HttpPost("saveNotifications")]
+        public async Task<bool> SaveNotifications(Notifications notification)
+        {
+            return await _empWFHRequest.SaveNotifications(notification);
+        }
+
+        [HttpPut("updateNotification")]
+        public async Task<bool> UpdateRequestStatus(Notifications notification)
+        {
+            return await _empWFHRequest.UpdateNotifications(notification);
+        }
     }
 }

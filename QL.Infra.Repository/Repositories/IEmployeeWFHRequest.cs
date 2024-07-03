@@ -26,5 +26,8 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<EmployeeProjectDetails>> GetProjectsByEmployeeId(string employeeId);
         Task<IEnumerable<ProjectsEmployeeDetailsDto>> GetEmployeeDetailsForProject(string project);
         Task<bool> UpdateRequestStatus(Guid requestid, string status);
+        Task<bool> SaveNotifications(Notifications notification);
+        Task<bool> UpdateNotifications(Notifications request);
+
     }
 }
