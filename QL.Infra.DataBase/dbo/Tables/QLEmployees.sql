@@ -22,8 +22,13 @@ GO
 
 ALTER TABLE [dbo].[QLEmployees] CHECK CONSTRAINT [FK_QLEmployees_QLRoles]
 GO
+
+
+GO
 ALTER TABLE [dbo].[QLEmployees]  WITH CHECK ADD  CONSTRAINT [FK_QLEmployees_QLProjects] FOREIGN KEY([ProjectId])
 REFERENCES [dbo].[QLProjects] ([Id])
 GO
 
 ALTER TABLE [dbo].[QLEmployees] CHECK CONSTRAINT [FK_QLEmployees_QLProjects]
+GO
+

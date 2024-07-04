@@ -158,5 +158,11 @@ namespace UserService.API.Controllers
         {
             return await _empWFHRequest.GetNotificationsByEmployeeId(employeeId);
         }
+
+        [HttpGet("getCardsByEmployeeId")]
+        public async Task<IEnumerable<CardsDto>> GetCardsByEmployeeId(string employeeId)
+        {
+            return await _empWFHRequest.GetCardsByEmployeeId(employeeId);
+        }
     }
 }

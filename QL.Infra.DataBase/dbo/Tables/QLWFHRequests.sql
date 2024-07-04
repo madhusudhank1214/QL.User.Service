@@ -23,14 +23,22 @@ GO
 
 ALTER TABLE [dbo].[QLWFHRequests] CHECK CONSTRAINT [FK_QLWFHRequests_QLWFHStatus]
 GO
+
+
+GO
 ALTER TABLE [dbo].[QLWFHRequests]  WITH CHECK ADD  CONSTRAINT [FK_QLWFHRequests_QLRequestTypes] FOREIGN KEY([RequestType])
 REFERENCES [dbo].[QLRequestTypes] ([RequestTypeId])
 GO
 
 ALTER TABLE [dbo].[QLWFHRequests] CHECK CONSTRAINT [FK_QLWFHRequests_QLRequestTypes]
 GO
+
+
+GO
 ALTER TABLE [dbo].[QLWFHRequests]  WITH CHECK ADD  CONSTRAINT [FK_QLWFHRequests_QLEmployees] FOREIGN KEY([EmployeeId])
 REFERENCES [dbo].[QLEmployees] ([Id])
 GO
 
 ALTER TABLE [dbo].[QLWFHRequests] CHECK CONSTRAINT [FK_QLWFHRequests_QLEmployees]
+GO
+

@@ -18,14 +18,22 @@ GO
 
 ALTER TABLE [dbo].[QLRoles] CHECK CONSTRAINT [FK_QLRoles_QLProjects]
 GO
+
+
+GO
 ALTER TABLE [dbo].[QLRoles]  WITH CHECK ADD  CONSTRAINT [FK_QLRoles_QLPermission] FOREIGN KEY([PermissionId])
 REFERENCES [dbo].[QLPermission] ([PermissionId])
 GO
 
 ALTER TABLE [dbo].[QLRoles] CHECK CONSTRAINT [FK_QLRoles_QLPermission]
 GO
+
+
+GO
 ALTER TABLE [dbo].[QLRoles]  WITH CHECK ADD  CONSTRAINT [FK_QLRoles_QLApps] FOREIGN KEY([AppId])
 REFERENCES [dbo].[QLApps] ([Id])
 GO
 
 ALTER TABLE [dbo].[QLRoles] CHECK CONSTRAINT [FK_QLRoles_QLApps]
+GO
+

@@ -14,3 +14,5 @@ REFERENCES [dbo].[QLNotificationStatus] ([NotificationStatusId])
 GO
 
 ALTER TABLE [dbo].[QLNotificationStatus] CHECK CONSTRAINT [FK_QLNotificationStatus_QLNotificationStatus]
+GO
+

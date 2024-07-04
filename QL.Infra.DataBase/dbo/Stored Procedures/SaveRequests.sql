@@ -3,8 +3,8 @@
 @EmployeeId nvarchar(50),
 @Status int,
 @Comments nvarchar(500),
-@Fromdate date,
-@ToDate date,
+@Fromdate datetime,
+@ToDate datetime,
 @RequestType int
 
 AS
