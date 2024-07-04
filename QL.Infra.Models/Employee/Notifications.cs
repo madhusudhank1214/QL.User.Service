@@ -28,6 +28,9 @@ namespace QL.Infra.Models.Employee
         public required string RequestId { get; set; }
 
         public bool Read {  get; set; }
-        
+
+        public string RejectedReason { get; set; }
+
+
     }
 }

@@ -28,6 +28,9 @@ namespace QL.Infra.Repository.Repositories
         Task<bool> UpdateRequestStatus(Guid requestid, string status);
         Task<bool> SaveNotifications(Notifications notification);
         Task<bool> UpdateNotifications(Notifications request);
+        Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeaTracker(string employeeId);
+        Task<IEnumerable<QLIdeaDetailsDto>> GetQLIdeaDetails();
+        Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId);
 
     }
 }

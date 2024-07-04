@@ -397,5 +397,57 @@ namespace QL.Infra.Repository.InfraRepos
                 throw ex;
             }
         }
+
+        public async Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeaTracker(string employeeId)
+        {
+            IEnumerable<QLIdeaTrackerDto> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetIdeaTracker";
+                    result = await connection.QueryAsync<QLIdeaTrackerDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<QLIdeaDetailsDto>> GetQLIdeaDetails()
+        {
+            List<QLIdeaDetailsDto> _qLIdeaDetailsDto;
+            var sql = "SELECT IdeaDescription, IdeaType FROM QLIdeaDetails";
+            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result = await connection.QueryAsync<QLIdeaDetailsDto>(sql);
+                return (IEnumerable<QLIdeaDetailsDto>)result;
+            }
+        }
+
+        public async Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId)
+        {
+            IEnumerable<NotificationsDto> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetNotificationsByEmployeeId";
+                    result = await connection.QueryAsync<NotificationsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

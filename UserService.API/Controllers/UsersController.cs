@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Employee;
 using QL.Infra.Repository.Repositories;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UserService.API.Controllers
 {
@@ -26,10 +27,15 @@ namespace UserService.API.Controllers
             return "Welcome to User World";
         }
         [HttpGet("GetAllEmployees")]
-        public async Task<IEnumerable<QLEmployee>> GetAllEmployees()
+        public async Task<ActionResult<IEnumerable<QLEmployee>>> GetAllEmployees()
         {
-            List<QLEmployee> _lstqLEmployees = [];
-            return await _empWFHRequest.GetAllEmployees();
+            var lstqLEmployees  = await _empWFHRequest.GetAllEmployees();
+            if (lstqLEmployees == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(lstqLEmployees);
         }
 
         [HttpGet("getAllRequests")]
@@ -39,9 +45,13 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet("getAllRequestsByProjectId")]
-        public async Task<IEnumerable<RequestsDto>> GetAllRequestsByProjectId(string projectId)
+        public async Task<ActionResult<IEnumerable<RequestsDto>>> GetAllRequestsByProjectId(string projectId)
         {
-            return await _empWFHRequest.GetAllRequestsByProjectId(projectId);
+
+            var lstRequestsByProject =  await _empWFHRequest.GetAllRequestsByProjectId(projectId);
+            if(lstRequestsByProject == null)
+            { return Ok("No Records Found"); }
+            return Ok(lstRequestsByProject);
         }
 
         [HttpGet("getAllRequestsByEmployeeId")]
@@ -123,6 +133,30 @@ namespace UserService.API.Controllers
         public async Task<bool> UpdateRequestStatus(Notifications notification)
         {
             return await _empWFHRequest.UpdateNotifications(notification);
+        }
+
+        [HttpGet("GetQLIdeaTracker")]
+        public async Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeaTracker(string employeeId)
+        {
+            return await _empWFHRequest.GetQLIdeaTracker(employeeId);
+        }
+
+
+        [HttpGet("GetQLIdeaDetails")]
+        public async Task<IActionResult> GetQLIdeaDetails()
+        {
+            var data = await _empWFHRequest.GetQLIdeaDetails();
+            if (data == null)
+            {
+                return Ok("No Records Found");
+            }
+            return Ok(data);
+        }
+
+        [HttpGet("getNotificationsByEmployeeId")]
+        public async Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId)
+        {
+            return await _empWFHRequest.GetNotificationsByEmployeeId(employeeId);
         }
     }
 }

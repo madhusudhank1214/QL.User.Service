@@ -88,5 +88,7 @@
     <Build Include="dbo\Stored Procedures\SaveNotifications.sql" />
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
     <Build Include="dbo\Stored Procedures\UpdateNotification.sql" />
+    <Build Include="dbo\GetIdeaTracker.sql" />
+    <Build Include="dbo\Stored Procedures\GetNotificationsByEmployeeId.sql" />
   </ItemGroup>
 </Project>
