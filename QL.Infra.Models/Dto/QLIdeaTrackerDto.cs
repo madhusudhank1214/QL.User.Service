@@ -17,7 +17,7 @@ namespace QL.Infra.Models.Dto
         public int Estimated_effort { get; set; }
         public int Actual_affort { get; set; }
         public int Annual_saving { get; set; }
-        public int Status { get; set; } 
+        public string Status { get; set; } 
         public string Resource_name { get; set; }
     }
 }

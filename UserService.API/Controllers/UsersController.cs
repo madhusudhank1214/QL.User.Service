@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Employee;
 using QL.Infra.Repository.Repositories;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UserService.API.Controllers
@@ -163,6 +165,25 @@ namespace UserService.API.Controllers
         public async Task<IEnumerable<CardsDto>> GetCardsByEmployeeId(string employeeId)
         {
             return await _empWFHRequest.GetCardsByEmployeeId(employeeId);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(Login login)
+        {
+            string pattern = @"qentelli.com";
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+            if (!regex.IsMatch(login.UserName))
+            {
+                throw new ValidationException("Username is invalid");
+            }
+            return Ok("Logged in successfully");
+        }
+
+        [HttpPost("saveIdeaTracker")]
+        public async Task<bool> SaveIdeaTracker(IdeaTracker ideaTracker)
+        {
+            return await _empWFHRequest.SaveIdeaTracker(ideaTracker);
         }
     }
 }

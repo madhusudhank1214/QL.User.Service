@@ -32,5 +32,6 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<QLIdeaDetailsDto>> GetQLIdeaDetails();
         Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId);
         Task<IEnumerable<CardsDto>> GetCardsByEmployeeId(string employeeId);
+        Task<bool> SaveIdeaTracker(IdeaTracker ideaTracker);
     }
 }
