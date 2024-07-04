@@ -185,5 +185,12 @@ namespace UserService.API.Controllers
         {
             return await _empWFHRequest.SaveIdeaTracker(ideaTracker);
         }
+
+        [HttpGet("getEmployeesDetailsForEmployeeId")]
+        public async Task<IEnumerable<QLEmployee>> GetEmployeesDetailsForEmployeeId(string employeeId)
+        {
+            return await _empWFHRequest.GetEmployeesDetailsForEmployeeId(employeeId);
+        }
     }
+
 }

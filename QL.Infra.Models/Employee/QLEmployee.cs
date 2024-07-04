@@ -14,5 +14,8 @@ namespace QL.Infra.Models.Employee
         public int RoleId { get; set; }
         public int ProjectId { get; set; }
         public int MobileNumber { get; set; }
+
+        public string RoleName { get; set; }
+        public string ProjectName { get; set; }
     }
 }

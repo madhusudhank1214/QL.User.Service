@@ -88,7 +88,6 @@
     <Build Include="dbo\Stored Procedures\SaveNotifications.sql" />
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
     <Build Include="dbo\Stored Procedures\UpdateNotification.sql" />
-    <Build Include="dbo\GetIdeaTracker.sql" />
     <Build Include="dbo\Stored Procedures\GetNotificationsByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GetCardsByEmployeeId.sql" />
     <Build Include="dbo\Tables\QLCards.sql" />
@@ -96,5 +95,7 @@
     <Build Include="dbo\Tables\QLIdeaTracker.sql" />
     <Build Include="dbo\Tables\QLLogin.sql" />
     <Build Include="dbo\Stored Procedures\SaveIdeaTracker.sql" />
+    <Build Include="dbo\Stored Procedures\GetIdeaTracker.sql" />
+    <Build Include="dbo\Stored Procedures\GetEmployeeDetailsForEmployeeId.sql" />
   </ItemGroup>
 </Project>

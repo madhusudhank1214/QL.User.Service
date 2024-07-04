@@ -42,7 +42,6 @@ namespace QL.Infra.Repository.InfraRepos
                 var result =  await connection.QueryAsync<QLEmployee>(sql);
                 return (IEnumerable<QLEmployee>)result;
             }
-            //return _qlemployees;
         }
         public IEnumerable<WFHRequests> GetAllWFHRequests()
         {
@@ -528,6 +527,27 @@ namespace QL.Infra.Repository.InfraRepos
                     break;
             }
             return ideaTypeId;
+        }
+
+        public async Task<IEnumerable<QLEmployee>> GetEmployeesDetailsForEmployeeId(string employeeId)
+        {
+            IEnumerable<QLEmployee> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetEmployeeDetailsForEmployeeId";
+                    result = await connection.QueryAsync<QLEmployee>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
     }
 }
