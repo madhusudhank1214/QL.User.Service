@@ -31,6 +31,11 @@ namespace UserService.API.Controllers
         {
             return await _idearepo.GetQLIdeasByEmployee(employeeId);
         }
+        [HttpGet("GetQLIdeasByEmployeeAndRole")]
+        public async Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeasByEmployeeAndRole(string employeeId, string roleId)
+        {
+            return await _idearepo.GetQLIdeasByEmployeeAndRole(employeeId,roleId);
+        }
 
         [HttpGet("GetQLIdeaDetails")]
         public async Task<IActionResult> GetQLIdeaDetails()
