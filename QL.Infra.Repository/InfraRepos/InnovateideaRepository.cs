@@ -61,31 +61,6 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
-        public async Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeasByEmployeeAndRole(string employeeId, string roleId)
-        {
-            IEnumerable<QLIdeaTrackerDto> result;
-            try
-            {
-                var parameters = new 
-                { 
-                    EmployeeId = employeeId,
-                    RoleId = roleId
-                };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    //var spName = "GetIdeaTracker";
-                    var spName = "GetAllInnovateIdeas";
-                    result = await connection.QueryAsync<QLIdeaTrackerDto>(spName, parameters, commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return result;
-        }
-
         public async Task<IEnumerable<QLIdeaDetailsDto>> GetQLIdeaDetails()
         {
             List<QLIdeaDetailsDto> _qLIdeaDetailsDto;
