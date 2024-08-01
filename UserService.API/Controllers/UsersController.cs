@@ -137,23 +137,10 @@ namespace UserService.API.Controllers
             return await _empWFHRequest.UpdateNotifications(notification);
         }
 
-        [HttpGet("GetQLIdeaTracker")]
-        public async Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeaTracker(string employeeId)
-        {
-            return await _empWFHRequest.GetQLIdeaTracker(employeeId);
-        }
+        
 
 
-        [HttpGet("GetQLIdeaDetails")]
-        public async Task<IActionResult> GetQLIdeaDetails()
-        {
-            var data = await _empWFHRequest.GetQLIdeaDetails();
-            if (data == null)
-            {
-                return Ok("No Records Found");
-            }
-            return Ok(data);
-        }
+        
 
         [HttpGet("getNotificationsByEmployeeId")]
         public async Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId)
@@ -180,12 +167,7 @@ namespace UserService.API.Controllers
             return Ok("Logged in successfully");
         }
 
-        [HttpPost("saveIdeaTracker")]
-        public async Task<bool> SaveIdeaTracker(IdeaTracker ideaTracker)
-        {
-            return await _empWFHRequest.SaveIdeaTracker(ideaTracker);
-        }
-
+       
         [HttpGet("getEmployeesDetailsForEmployeeId")]
         public async Task<IEnumerable<QLEmployee>> GetEmployeesDetailsForEmployeeId(string employeeId)
         {

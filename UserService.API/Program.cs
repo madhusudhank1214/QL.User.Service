@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IEmployeeWFHRequest, EmployeeWFHRequest>();
+builder.Services.AddTransient<IInnovateideaRepository, InnovateideaRepository>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>

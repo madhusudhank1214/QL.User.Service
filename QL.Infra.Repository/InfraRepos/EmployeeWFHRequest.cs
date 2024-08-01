@@ -397,38 +397,7 @@ namespace QL.Infra.Repository.InfraRepos
             }
         }
 
-        public async Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeaTracker(string employeeId)
-        {
-            IEnumerable<QLIdeaTrackerDto> result;
-            try
-            {
-                var parameters = new { EmployeeId = employeeId };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    var spName = "GetIdeaTracker";
-                    result = await connection.QueryAsync<QLIdeaTrackerDto>(spName, parameters, commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return result;
-        }
-
-        public async Task<IEnumerable<QLIdeaDetailsDto>> GetQLIdeaDetails()
-        {
-            List<QLIdeaDetailsDto> _qLIdeaDetailsDto;
-            var sql = "SELECT IdeaDescription, IdeaType FROM QLIdeaDetails";
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var result = await connection.QueryAsync<QLIdeaDetailsDto>(sql);
-                return (IEnumerable<QLIdeaDetailsDto>)result;
-            }
-        }
-
+        
         public async Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId)
         {
             IEnumerable<NotificationsDto> result;
@@ -469,65 +438,8 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
-        public async Task<bool> SaveIdeaTracker(IdeaTracker ideaTracker)
-        {
-            int ideaTypeId = GetIdeaTypeValue(ideaTracker.IdeaType);
-            int status = GetRequestStatusValue(ideaTracker.Status);
-            try
-            {
-                var parameters = new
-                {
-                    Title = ideaTracker.Title,
-                    IdeaDescription = ideaTracker.IdeaDescription,
-                    IdeaType = ideaTypeId,
-                    Benefits = ideaTracker.Benefits,
-                    Technology = ideaTracker.Technology,
-                    EstimatedEffort = ideaTracker.EstimatedEffort,
-                    ActualEffort = ideaTracker.ActualEffort,
-                    AnnualSaving= ideaTracker.AnnualSaving,
-                    Status= status,
-                    ResourceName = ideaTracker.ResourceName
-                };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    var spName = "SaveIdeaTracker";
-                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
-                    if (result == 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public int GetIdeaTypeValue(string ideatype)
-        {
-            string ideaType = ideatype;
-            int ideaTypeId = 0;
-            switch (ideaType)
-            {
-                case "Tax":
-                    ideaTypeId = 1;
-                    break;
-                case "IMMIGRATON":
-                    ideaTypeId = 2;
-                    break;
-                case "TCB":
-                    ideaTypeId = 3;
-                    break;
-            }
-            return ideaTypeId;
-        }
+        
+        
 
         public async Task<IEnumerable<QLEmployee>> GetEmployeesDetailsForEmployeeId(string employeeId)
         {
