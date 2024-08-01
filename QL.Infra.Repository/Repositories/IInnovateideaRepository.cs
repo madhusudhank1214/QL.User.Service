@@ -12,6 +12,7 @@ namespace QL.Infra.Repository.Repositories
     {
         Task<IEnumerable<QLIdeaTrackerDto>> GetAllQLInnovativeIdeas();
         Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeasByEmployee(string employeeId);
+        Task<IEnumerable<QLIdeaTrackerDto>> GetQLIdeasByEmployeeAndRole(string employeeId, string roleId);
         Task<IEnumerable<QLIdeaDetailsDto>> GetQLIdeaDetails();
         Task<bool> SaveIdeaTracker(IdeaTracker ideaTracker);
     }
