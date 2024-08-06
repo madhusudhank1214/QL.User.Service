@@ -1,4 +1,14 @@
-﻿CREATE TABLE [dbo].[QLEmployees](
+USE [QL_WFH]
+GO
+
+/****** Object:  Table [dbo].[QLEmployees]    Script Date: 06-08-2024 16:52:02 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[QLEmployees](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[EmpId] [nvarchar](10) NOT NULL,
 	[Name] [nvarchar](100) NOT NULL,
@@ -6,16 +16,21 @@
 	[RoleId] [int] NOT NULL,
 	[ProjectId] [int] NOT NULL,
 	[MobileNumber] [int] NULL,
-	[AllocationDate] [date] NULL,
-	[EndDate] [date] NULL,
+	[ManagerId] [nvarchar](20) NULL,
  CONSTRAINT [PK_QLEmployees] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
-
-
 GO
+
+ALTER TABLE [dbo].[QLEmployees]  WITH CHECK ADD  CONSTRAINT [FK_QLEmployees_QLProjects] FOREIGN KEY([ProjectId])
+REFERENCES [dbo].[QLProjects] ([Id])
+GO
+
+ALTER TABLE [dbo].[QLEmployees] CHECK CONSTRAINT [FK_QLEmployees_QLProjects]
+GO
+
 ALTER TABLE [dbo].[QLEmployees]  WITH CHECK ADD  CONSTRAINT [FK_QLEmployees_QLRoles] FOREIGN KEY([RoleId])
 REFERENCES [dbo].[QLRoles] ([Id])
 GO
@@ -23,12 +38,4 @@ GO
 ALTER TABLE [dbo].[QLEmployees] CHECK CONSTRAINT [FK_QLEmployees_QLRoles]
 GO
 
-
-GO
-ALTER TABLE [dbo].[QLEmployees]  WITH CHECK ADD  CONSTRAINT [FK_QLEmployees_QLProjects] FOREIGN KEY([ProjectId])
-REFERENCES [dbo].[QLProjects] ([Id])
-GO
-
-ALTER TABLE [dbo].[QLEmployees] CHECK CONSTRAINT [FK_QLEmployees_QLProjects]
-GO
 

@@ -74,8 +74,7 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Open();
-                    //var spName = "GetIdeaTracker";
-                    var spName = "GetAllInnovateIdeas";
+                    var spName = "GetIdeaTrackerByRole";
                     result = await connection.QueryAsync<QLIdeaTrackerDto>(spName, parameters, commandType: CommandType.StoredProcedure);
                 }
             }

@@ -15,9 +15,7 @@ namespace QL.Infra.Repository.Repositories
         IEnumerable<WFHRequests> GetWFHRequestsByEmployee(string EmployeeID);
         WFHRequests AddWFHRequestsByEmployee(string EmployeeID);
         WFHRequests UpdateWFHRequestsByEmployee(string EmployeeID);
-        Task<IEnumerable<MasterDto>> GetAppName();
-        Task<IEnumerable<MasterDto>> GetRequestType();
-        Task<IEnumerable<MasterDto>> GetStatus();
+        
         Task<IEnumerable<RequestsDto>> GetAllRequestDetails();
         Task<IEnumerable<RequestsDto>> GetAllRequestsByProjectId(string projectId);
         Task<IEnumerable<RequestsDto>> GetAllRequestsByEmployeeId(string employeeId);
@@ -26,11 +24,7 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<EmployeeProjectDetails>> GetProjectsByEmployeeId(string employeeId);
         Task<IEnumerable<ProjectsEmployeeDetailsDto>> GetEmployeeDetailsForProject(string project);
         Task<bool> UpdateRequestStatus(Guid requestid, string status);
-        Task<bool> SaveNotifications(Notifications notification);
-        Task<bool> UpdateNotifications(Notifications request);
-      
-        Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId);
-        Task<IEnumerable<CardsDto>> GetCardsByEmployeeId(string employeeId);
+        
         
         Task<IEnumerable<QLEmployee>> GetEmployeesDetailsForEmployeeId(string employeeId);
     }

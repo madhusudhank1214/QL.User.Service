@@ -58,37 +58,7 @@ namespace QL.Infra.Repository.InfraRepos
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<MasterDto>> GetAppName()
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var spName = "GetAppName";
-                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
-            );
-            }
-        }
-        public async Task<IEnumerable<MasterDto>> GetRequestType()
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var spName = "GetRequestType";
-                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
-            );
-            }
-        }
-        public async Task<IEnumerable<MasterDto>> GetStatus()
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-            {
-                connection.Open();
-                var spName = "GetStatus";
-                return await connection.QueryAsync<MasterDto>(spName, commandType: CommandType.StoredProcedure
-            );
-            }
-        }
-
+       
         public void Dispose()
         {
             Dispose(true);
@@ -166,6 +136,28 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
+
+        public async Task<IEnumerable<RoleDto>> GetRoleByEmployeeId(string employeeId)
+        {
+            IEnumerable<RoleDto> result;
+            try
+            {
+                var parameters = new { EmployeeId = employeeId };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "GetRoleOfEmployee";
+                    result = await connection.QueryAsync<RoleDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
 
         public async Task<IEnumerable<RequestsDto>> SaveRequests(WFHRequests request)
         {
@@ -284,22 +276,6 @@ namespace QL.Infra.Repository.InfraRepos
             return requeststatusid;
         }
 
-        public int GetNotificationStatusValue(string notificationStatus)
-        {
-            string status = notificationStatus;
-            int notificationStatusId = 0;
-            switch (status)
-            {
-                case "Ready":
-                    notificationStatusId = 1;
-                    break;
-                case "Sent":
-                    notificationStatusId = 2;
-                    break;
-            }
-            return notificationStatusId;
-        }
-
         public async Task<bool> UpdateRequestStatus(Guid requestId, string status)
         {
             int requeststatusid = GetRequestStatusValue(status);
@@ -326,120 +302,6 @@ namespace QL.Infra.Repository.InfraRepos
                 throw ex;
             }
         }
-
-        public async Task<bool> SaveNotifications(Notifications notificationRequest)
-        {
-            int notificationStatusId = GetNotificationStatusValue(notificationRequest.NotificationStatus);
-            try
-            {
-                var parameters = new
-                {
-                    Title = notificationRequest.Title,
-                    NotificationStatus = notificationStatusId,
-                    CreatedDate= DateTime.Now,
-                    RequestId = notificationRequest.RequestId,
-                    Read = notificationRequest.Read
-                };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    var spName = "SaveNotifications";
-                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
-                    if (result == 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<bool> UpdateNotifications(Notifications notificationRequest)
-        {
-            int notificationStatusId = GetNotificationStatusValue(notificationRequest.NotificationStatus);
-            try
-            {
-                var parameters = new
-                {
-                    Title = notificationRequest.Title,
-                    NotificationStatus = notificationStatusId,
-                    ApprovedDate = notificationRequest.ApprovedDate,
-                    RequestId = notificationRequest.RequestId,
-                    Read = notificationRequest.Read
-                };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    var spName = "UpdateNotification";
-                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
-                    if (result == 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        
-        public async Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId)
-        {
-            IEnumerable<NotificationsDto> result;
-            try
-            {
-                var parameters = new { EmployeeId = employeeId };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    var spName = "GetNotificationsByEmployeeId";
-                    result = await connection.QueryAsync<NotificationsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return result;
-        }
-
-        public async Task<IEnumerable<CardsDto>> GetCardsByEmployeeId(string employeeId)
-        {
-            IEnumerable<CardsDto> result;
-            try
-            {
-                var parameters = new { EmployeeId = employeeId };
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    connection.Open();
-                    var spName = "GetCardsByEmployeeId";
-                    result = await connection.QueryAsync<CardsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return result;
-        }
-
-        
-        
 
         public async Task<IEnumerable<QLEmployee>> GetEmployeesDetailsForEmployeeId(string employeeId)
         {

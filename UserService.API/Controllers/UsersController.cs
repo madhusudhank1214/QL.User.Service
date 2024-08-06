@@ -17,11 +17,13 @@ namespace UserService.API.Controllers
     {
         private readonly ILogger<UsersController> _logger;
         private IEmployeeWFHRequest _empWFHRequest;
+        private IMasterInfomation _masterInfo;
 
-        public UsersController(IEmployeeWFHRequest empWFHRequest, ILogger<UsersController> logger)
+        public UsersController(IEmployeeWFHRequest empWFHRequest, IMasterInfomation masterInfo, ILogger<UsersController> logger)
         {
             _logger = logger;
             _empWFHRequest = empWFHRequest;
+            _masterInfo = masterInfo;
         }
         [HttpGet]
         public string Get()
@@ -68,39 +70,6 @@ namespace UserService.API.Controllers
             return await _empWFHRequest.SaveRequests(request);
         }
 
-        [HttpGet("GetAppName")]
-        public async Task<IActionResult> GetAppName()
-        {
-            var data = await _empWFHRequest.GetAppName();
-            if (data == null) 
-            { 
-                return Ok("No Records Found");
-            }
-            return Ok(data);
-        }
-
-        [HttpGet("GetRequestType")]
-        public async Task<IActionResult> GetRequestType()
-        {
-            var data = await _empWFHRequest.GetRequestType();
-            if (data == null)
-            {
-                return Ok("No Records Found");
-            }
-            return Ok(data);
-        }
-
-        [HttpGet("GetStatus")]
-        public async Task<IActionResult> GetStatus()
-        {
-            var data = await _empWFHRequest.GetStatus();
-            if (data == null)
-            {
-                return Ok("No Records Found");
-            }
-            return Ok(data);
-        }
-
         [HttpGet("getAllRequestCountByEmployeeId")]
         public async Task<IEnumerable<RequestCountDto>> GetAllRequestCountByEmployeeId(string employeeId)
         {
@@ -124,34 +93,12 @@ namespace UserService.API.Controllers
         {
             return await _empWFHRequest.UpdateRequestStatus(requestid, status);
         }
-
-        [HttpPost("saveNotifications")]
-        public async Task<bool> SaveNotifications(Notifications notification)
-        {
-            return await _empWFHRequest.SaveNotifications(notification);
-        }
-
-        [HttpPut("updateNotification")]
-        public async Task<bool> UpdateRequestStatus(Notifications notification)
-        {
-            return await _empWFHRequest.UpdateNotifications(notification);
-        }
-
         
-
-
-        
-
-        [HttpGet("getNotificationsByEmployeeId")]
-        public async Task<IEnumerable<NotificationsDto>> GetNotificationsByEmployeeId(string employeeId)
-        {
-            return await _empWFHRequest.GetNotificationsByEmployeeId(employeeId);
-        }
 
         [HttpGet("getCardsByEmployeeId")]
         public async Task<IEnumerable<CardsDto>> GetCardsByEmployeeId(string employeeId)
         {
-            return await _empWFHRequest.GetCardsByEmployeeId(employeeId);
+            return await _masterInfo.GetCardsByEmployeeId(employeeId);
         }
 
         [HttpPost("login")]

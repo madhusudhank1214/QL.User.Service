@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL.Infra.Models.InnovateIdea
+namespace QL.Infra.Models.Dto
 {
-    public class IdeaIcons
+    public class IconsDto
     {
         public int ID { get; set; }
-        public string Icon { get; set; }
-        public string Title { get; set; }
+        public  string Icon { get; set; }
+        public required string Title { get; set; }
         public int Number { get; set; }
         public string Backgroundcolor { get; set; }
     }

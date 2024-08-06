@@ -1,0 +1,24 @@
+USE [QL_WFH]
+GO
+
+/****** Object:  Table [dbo].[QLIcons]    Script Date: 06-08-2024 16:48:12 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[QLIcons](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Icon] [nvarchar](50) NOT NULL,
+	[Title] [nvarchar](50) NOT NULL,
+	[Number] [int] NULL,
+	[Backgroundcolor] [nvarchar](50) NULL,
+ CONSTRAINT [PK_QLIcons] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
