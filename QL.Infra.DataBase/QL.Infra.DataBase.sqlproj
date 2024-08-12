@@ -83,7 +83,6 @@
     <Build Include="dbo\Stored Procedures\GetAppName.sql" />
     <Build Include="dbo\Stored Procedures\GetAllRequestCountByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\GetProjectsByEmployeeId.sql" />
-    <Build Include="dbo\Stored Procedures\GetEmployeeDetailsForProject.sql" />
     <Build Include="dbo\Stored Procedures\UpdateRequestsStatus.sql" />
     <Build Include="dbo\Stored Procedures\SaveNotifications.sql" />
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
