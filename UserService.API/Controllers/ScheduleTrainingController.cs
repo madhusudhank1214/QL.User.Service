@@ -20,8 +20,7 @@ namespace UserService.API.Controllers
         [HttpPost("SaveScheduleTrainings")]
         public async Task<bool> SaveScheduleTrainings(IEnumerable<ScheduleTraining> scheduleTraining)
         {
-            var save=await _scheduleTraining.SaveScheduleTrainings(scheduleTraining);
-            return save;
+            return await _scheduleTraining.SaveScheduleTrainings(scheduleTraining);            
         }
     }
 }
