@@ -1,4 +1,3 @@
-
 CREATE TABLE [dbo].[QLEmployees](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[EmpId] [nvarchar](10) NOT NULL,
@@ -7,6 +6,8 @@ CREATE TABLE [dbo].[QLEmployees](
 	[RoleId] [int] NOT NULL,
 	[ProjectId] [int] NOT NULL,
 	[MobileNumber] [int] NULL,
+	[AllocationDate] [date] NULL,
+	[EndDate] [date] NULL,
 	[ManagerId] [nvarchar](20) NULL,
  CONSTRAINT [PK_QLEmployees] PRIMARY KEY CLUSTERED 
 (
