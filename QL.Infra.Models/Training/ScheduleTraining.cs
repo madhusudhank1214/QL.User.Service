@@ -17,10 +17,10 @@ namespace QL.Infra.Models.Training
         public string Venuduration { get; set; }
         public string Facilitator { get; set; }
         public bool IsAttended { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 
-        public int TrCode { get; set; }
+        public Guid TrCode { get; set; }
     }
         
 }

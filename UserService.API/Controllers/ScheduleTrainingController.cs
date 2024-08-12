@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
+using System;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace UserService.API.Controllers
 {
@@ -12,15 +17,33 @@ namespace UserService.API.Controllers
     {
         private readonly IScheduleTraining _scheduleTraining;
         private readonly ILogger<ScheduleTrainingController> _logger;
-        public ScheduleTrainingController(IScheduleTraining scheduleTraining, ILogger<ScheduleTrainingController> logger)
+        private readonly IValidator<List<ScheduleTraining>> _validator;
+        public ScheduleTrainingController(IScheduleTraining scheduleTraining, ILogger<ScheduleTrainingController> logger, IValidator<List<ScheduleTraining>> validator)
         {
             _scheduleTraining = scheduleTraining;
             _logger = logger;
+            _validator = validator;
         }
         [HttpPost("SaveScheduleTrainings")]
-        public async Task<bool> SaveScheduleTrainings(IEnumerable<ScheduleTraining> scheduleTraining)
+        public async Task<IActionResult> SaveScheduleTrainings(List<ScheduleTraining> scheduleTraining)
         {
-            return await _scheduleTraining.SaveScheduleTrainings(scheduleTraining);            
+            
+            try
+            {
+                FluentValidation.Results.ValidationResult result = _validator.Validate(scheduleTraining);
+
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.Errors);
+                }
+                return Ok(await _scheduleTraining.SaveScheduleTrainings(scheduleTraining));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
+        
     }
 }
