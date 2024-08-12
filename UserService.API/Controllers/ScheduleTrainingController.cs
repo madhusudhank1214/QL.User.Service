@@ -21,7 +21,7 @@ namespace UserService.API.Controllers
         public async Task<bool> SaveScheduleTrainings(IEnumerable<ScheduleTraining> scheduleTraining)
         {
             var save=await _scheduleTraining.SaveScheduleTrainings(scheduleTraining);
-            return true;
+            return save;
         }
     }
 }
