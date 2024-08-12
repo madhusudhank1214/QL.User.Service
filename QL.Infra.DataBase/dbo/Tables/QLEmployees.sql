@@ -29,5 +29,3 @@ GO
 
 ALTER TABLE [dbo].[QLEmployees] CHECK CONSTRAINT [FK_QLEmployees_QLRoles]
 GO
-
-

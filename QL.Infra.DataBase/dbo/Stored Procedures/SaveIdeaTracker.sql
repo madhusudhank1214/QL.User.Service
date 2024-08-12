@@ -17,7 +17,7 @@ BEGIN
 	SET @EmployeeId = (SELECT Id from QLEmployees where EmpId=@ResourceName )
 
 	INSERT INTO QLIdeaTracker(Title, IdeaDescription, IdeaType, Benefits, Technology, EstimatedEffort, ActualEffort, 
-	AnnualSaving, Status, ResourceName)
+	AnnualSaving, Status, EmpId)
 	values(@Title, @IdeaDescription, @IdeaType, @Benefits, @Technology, @EstimatedEffort, @ActualEffort,
 	@AnnualSaving, @Status, @EmployeeId)
 END
