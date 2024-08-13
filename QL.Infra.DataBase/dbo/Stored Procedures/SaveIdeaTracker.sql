@@ -8,13 +8,13 @@
 @ActualEffort int,
 @AnnualSaving int,
 @Status int,
-@ResourceName nvarchar(10)
+@EmpId nvarchar(10)
 
 AS
 BEGIN
 
 	Declare @EmployeeId int;
-	SET @EmployeeId = (SELECT Id from QLEmployees where EmpId=@ResourceName )
+	SET @EmployeeId = (SELECT Id from QLEmployees where EmpId=@EmpId )
 
 	INSERT INTO QLIdeaTracker(Title, IdeaDescription, IdeaType, Benefits, Technology, EstimatedEffort, ActualEffort, 
 	AnnualSaving, Status, EmpId)
