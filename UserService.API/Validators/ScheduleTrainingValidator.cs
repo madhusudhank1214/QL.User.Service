@@ -14,9 +14,13 @@ namespace UserService.API.Validators
             RuleFor(schedule => schedule.FocusAreas).NotEmpty();
             RuleFor(schedule => schedule.LearningObjectives).NotEmpty();
             RuleFor(schedule => schedule.StartDate).NotEmpty();
-            RuleFor(schedule => schedule).NotEmpty();
-        //        .Must(x => x.EndDate == default(DateTime) || x.StartDate == default(DateTime) || x.EndDate >= x.StartDate)
-        //.WithMessage("EndDate must greater than equal  StarDate");
+            RuleFor(schedule => schedule.EndDate).NotEmpty();
+            RuleFor(schedule => schedule.LearningObjectives).NotEmpty();
+            RuleFor(schedule => schedule.Mode).NotEmpty();
+            RuleFor(schedule => schedule.IsCancelled).NotEmpty();
+            RuleFor(schedule => schedule.IsBuHeadApproval).NotEmpty();
+            RuleFor(schedule => schedule.IsInternal).NotEmpty();
+            RuleFor(schedule => schedule.IsVirtual).NotEmpty();
 
         }
     }

@@ -69,20 +69,22 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("Mode", typeof(string));
             table.Columns.Add("VenuDuration", typeof(string));
             table.Columns.Add("Facilitator", typeof(string));
-            table.Columns.Add("IsAttended", typeof(bool));
+            table.Columns.Add("IsCancelled", typeof(bool));
             table.Columns.Add("StartDate", typeof(DateTime));
-            table.Columns.Add("EndDate", typeof(DateTime));
-            table.Columns.Add("Trcode", typeof(Guid));
+            table.Columns.Add("EndDate", typeof(DateTime));            
+            table.Columns.Add("IsBuHeadApproval", typeof(bool));
+            table.Columns.Add("IsInternal", typeof(bool));
+            table.Columns.Add("IsVirtual", typeof(bool));
 
             CultureInfo provider = CultureInfo.InvariantCulture;
-            string dateString = "12-08-24"; // Example date string in dd-MM-yy format
+            
             string format = "dd-MM-yy";
             foreach (var schedule in schedules)
             {
 
                 DateTime startDate = DateTime.ParseExact(schedule.StartDate, format, provider);
                 DateTime endDate = DateTime.ParseExact(schedule.EndDate, format, provider);
-                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator, schedule.IsAttended, startDate, endDate, schedule.TrCode);
+                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false));
             }
 
             return table;
