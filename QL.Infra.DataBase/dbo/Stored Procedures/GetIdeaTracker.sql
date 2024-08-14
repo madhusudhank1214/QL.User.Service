@@ -17,7 +17,7 @@ SELECT ROW_NUMBER() OVER (
   ,E.Name AS Resource_name  
 from QLIdeaTracker IT with(nolock) join  
 QLIdeaDetails ID on ID.Id= IT.IdeaType  
-JOIN QLEmployees E on E.Id=IT.ResourceName  
+JOIN QLEmployees E on E.Id=IT.EmpId  
 JOIN QLWFHStatus S on S.StatusId=IT.Status  
 WHERE E.EmpId=@EmployeeId
 END

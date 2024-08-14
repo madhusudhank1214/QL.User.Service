@@ -24,8 +24,12 @@ builder.Services.AddTransient<IInnovateideaRepository, InnovateideaRepository>()
 builder.Services.AddTransient<IMasterInfomation, MasterInfomation>();
 builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
 builder.Services.AddTransient<IScheduleTraining,ScheduleTrainingRepository>();
+
 builder.Services.AddTransient<IValidator<ScheduleTraining>, ScheduleTrainingValidator>();
 builder.Services.AddTransient<IValidator<List<ScheduleTraining>>, ListScheduleTrainingValidator>();
+
+
+builder.Services.AddTransient<IQLTrainingsRepository, QLTrainingsRepository>();
 
 
 builder.Services.AddCors(options =>

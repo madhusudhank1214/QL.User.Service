@@ -96,5 +96,6 @@
     <Build Include="dbo\Stored Procedures\SaveIdeaTracker.sql" />
     <Build Include="dbo\Stored Procedures\GetIdeaTracker.sql" />
     <Build Include="dbo\Stored Procedures\GetEmployeeDetailsForEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\GetRegisteredTrainingsByEmployeeId.sql" />
   </ItemGroup>
 </Project>
