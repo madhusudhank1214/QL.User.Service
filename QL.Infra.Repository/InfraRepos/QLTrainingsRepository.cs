@@ -27,12 +27,14 @@ namespace QL.Infra.Repository.InfraRepos
             IEnumerable<QLTrainingsDto> result;
             try
             {
-                var parameters = new { };
+                
+
+                var query = "SELECT TRAININGID,TOPIC,LEARNINGOBJECTIVES as focusareas,FOCUSAREAS,MODE,VENUDURATION,FACILITATOR as facilitator,ISCANCELLED,STARTDATE as StartDate,ENDDATE as EndDate,Mode,ISBUHEADAPPROVAL,ISINTERNAL,ISVirtual FROM TRAININGSCHEDULE;";
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    connection.Open();
-                    var spName = "GetTrainingsforRegistration";
-                    result = await connection.QueryAsync<QLTrainingsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                    
+                    var trainings = await connection.QueryAsync<QLTrainingsDto>(query);
+                    return trainings;
                 }
             }
             catch (Exception ex)

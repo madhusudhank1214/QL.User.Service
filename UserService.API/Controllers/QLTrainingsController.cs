@@ -17,7 +17,7 @@ namespace UserService.API.Controllers
             _logger = logger;
             _traingsrepo = traingsrepo;
         }
-        [HttpGet("GetTrainingsforRegistration")]
+        [HttpGet("GetAllTrainingSchedule")]
         public async Task<IEnumerable<QLTrainingsDto>> GetTrainingsforRegistration()
         {
             return await _traingsrepo.GetTrainingsforRegistration();
