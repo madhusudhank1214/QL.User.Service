@@ -11,6 +11,7 @@ using QL.Infra.Models.Dto;
 using QL.Infra.Repository.Repositories;
 using Dapper;
 using QL.Infra.Models.Training;
+using System.Globalization;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -68,14 +69,22 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("Mode", typeof(string));
             table.Columns.Add("VenuDuration", typeof(string));
             table.Columns.Add("Facilitator", typeof(string));
-            table.Columns.Add("IsAttended", typeof(bool));
+            table.Columns.Add("IsCancelled", typeof(bool));
             table.Columns.Add("StartDate", typeof(DateTime));
-            table.Columns.Add("EndDate", typeof(DateTime));
-            table.Columns.Add("Trcode", typeof(int));
+            table.Columns.Add("EndDate", typeof(DateTime));            
+            table.Columns.Add("IsBuHeadApproval", typeof(bool));
+            table.Columns.Add("IsInternal", typeof(bool));
+            table.Columns.Add("IsVirtual", typeof(bool));
 
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            
+            string format = "dd-MM-yy";
             foreach (var schedule in schedules)
             {
-                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator, schedule.IsAttended, schedule.StartDate, schedule.EndDate, schedule.TrCode);
+
+                DateTime startDate = DateTime.ParseExact(schedule.StartDate, format, provider);
+                DateTime endDate = DateTime.ParseExact(schedule.EndDate, format, provider);
+                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false));
             }
 
             return table;
