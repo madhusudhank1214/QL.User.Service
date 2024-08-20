@@ -44,34 +44,24 @@ namespace UserService.API.Controllers
         }
 
         [HttpPut("CancelTraining")]
-        public async Task<IActionResult> CancelTraining(int id)
+        public async Task<IActionResult> CancelTraining(Guid trainingId)
         {
-            if (id <= 0)
-            {
-                return BadRequest("Invalid training ID.");
-            }
-
-            var result = await _qlTrainingsRepository.CancelTrainingAsync(id);
+            var result = await _qlTrainingsRepository.CancelTrainingAsync(trainingId);
             if (result)
             {
-                return Ok($" Training Id {id} cancelled successfully.");
+                return Ok($" Training Id {trainingId} cancelled successfully.");
             }
 
             return NotFound("Training not found.");
         }
 
         [HttpPut("CancelScheduledTraining")]
-        public async Task<IActionResult> CancelScheduledTraining(int id)
+        public async Task<IActionResult> CancelScheduledTraining(Guid trainingId)
         {
-            if (id <= 0)
-            {
-                return BadRequest("Invalid training ID.");
-            }
-
-            var result = await _qlTrainingsRepository.CancelScheduledTrainingAsync(id);
+            var result = await _qlTrainingsRepository.CancelScheduledTrainingAsync(trainingId);
             if (result)
             {
-                return Ok($" Scheduled Training Id {id} cancelled successfully.");
+                return Ok($" Scheduled Training Id {trainingId} cancelled successfully.");
             }
 
             return NotFound("Training not found.");

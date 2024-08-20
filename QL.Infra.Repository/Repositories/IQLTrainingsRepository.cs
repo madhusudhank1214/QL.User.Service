@@ -12,9 +12,9 @@ namespace QL.Infra.Repository.Repositories
     {
         Task<int> RegisterTrainingAsync(QLRegisterTrainingDTO dto);
         Task<IEnumerable<ScheduleTrainingDTO>> GetAllScheduleTrainingsAsync();
-        Task<bool> CancelTrainingAsync(int id);
+        Task<bool> CancelTrainingAsync(Guid trainingId);
         Task<bool> TrainingAlreadyRegistered(QLRegisterTrainingDTO dto);
-        Task<bool> CancelScheduledTrainingAsync(int id);
+        Task<bool> CancelScheduledTrainingAsync(Guid trainingId);
         Task<IEnumerable<QLTrainingsDto>> GetTrainingsforRegistration();
         Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId);
     }

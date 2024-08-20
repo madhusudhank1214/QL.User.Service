@@ -32,15 +32,18 @@ namespace QL.Infra.Repository.InfraRepos
                     trainings = await connection.QueryAsync<ScheduleTrainingDTO>(query);                    
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
+
             return trainings;
         }
 
         public async Task<int> RegisterTrainingAsync(QLRegisterTrainingDTO dto)
         {
+            int id;
+
             var model = new QLRegisterTraining
             {
                 EmpId = dto.EmpId,
@@ -51,8 +54,6 @@ namespace QL.Infra.Repository.InfraRepos
                 IsAttended = dto.IsAttended,
                 IsCancelled = dto.IsCancelled
             };
-
-            int id;
 
             try
             {
@@ -80,10 +81,11 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 throw;
             }
+
             return id;
         }
 
-        public async Task<bool> CancelTrainingAsync(int id)
+        public async Task<bool> CancelTrainingAsync(Guid trainingId)
         {
             int result;
             try
@@ -92,21 +94,20 @@ namespace QL.Infra.Repository.InfraRepos
                 {
                     var query = @"UPDATE [dbo].[REGISTERTRAINING] 
                                SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
-                               WHERE [ID] = @Id";
+                               WHERE [TrainingScheduleId] = @trainingId";
 
-                    result = await connection.ExecuteAsync(query, new { Id = id });
-
-                    return result > 0;
+                    result = await connection.ExecuteAsync(query, new { @trainingId });                    
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
+
+            return result > 0;
         }
 
-        public async Task<bool> CancelScheduledTrainingAsync(int id)
+        public async Task<bool> CancelScheduledTrainingAsync(Guid trainingId)
         {
             int result;
             try
@@ -115,17 +116,17 @@ namespace QL.Infra.Repository.InfraRepos
                 {
                     var query = @"UPDATE [dbo].[TRAININGSCHEDULE] 
                                SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
-                               WHERE [ID] = @Id";
+                               WHERE [TRAININGID] = @trainingId";
                     
-                    result = await connection.ExecuteAsync(query, new { Id = id });
-
-                    return result > 0;
+                    result = await connection.ExecuteAsync(query, new { @trainingId });
                 }
             }
             catch (Exception)
             {
                 throw;
             }
+
+            return result > 0;
         }
 
         public async Task<bool> TrainingAlreadyRegistered(QLRegisterTrainingDTO dto)
