@@ -75,6 +75,7 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("IsBuHeadApproval", typeof(bool));
             table.Columns.Add("IsInternal", typeof(bool));
             table.Columns.Add("IsVirtual", typeof(bool));
+            table.Columns.Add("Id", typeof(Guid));
 
             CultureInfo provider = CultureInfo.InvariantCulture;
             
@@ -84,7 +85,7 @@ namespace QL.Infra.Repository.InfraRepos
 
                 DateTime startDate = DateTime.ParseExact(schedule.StartDate, format, provider);
                 DateTime endDate = DateTime.ParseExact(schedule.EndDate, format, provider);
-                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false));
+                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), new Guid(schedule.Id));
             }
 
             return table;
