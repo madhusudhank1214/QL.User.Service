@@ -16,13 +16,15 @@ namespace QL.Infra.Models.Dto
         public string Mode { get; set; }
         
         public bool TrainingOnLine { get; set; }
-        public bool TrainingInternal { get; set; }
-        public bool ApprovalRequired { get; set; }
+        public bool ISCANCELLED { get; set; }
+        public bool ISBUHEADAPPROVAL { get; set; }
+        public bool ISINTERNAL { get; set; }
+        public bool ISVirtual { get; set; }
         public string ApproverId { get; set; }
         public string ApproverName { get; set; }
 
-        public DateTime TrainingStartDate { get; set; }
-        public DateTime TrainingEndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
     }
 }
