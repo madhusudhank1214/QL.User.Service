@@ -44,6 +44,26 @@ namespace UserService.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
+        [HttpPut("UpdateScheduleTrainings")]
+        public async Task<IActionResult> UpdateScheduleTrainings(ScheduleTraining scheduleTraining)
+        {
+
+            try
+            {
+
+                if (scheduleTraining.TrainingID==Guid.Empty)
+                {
+                    return BadRequest("TrainingID is Empty");
+                }
+                return Ok(await _scheduleTraining.UpdateScheduleTrainings(scheduleTraining));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

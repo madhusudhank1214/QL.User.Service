@@ -11,5 +11,6 @@ namespace QL.Infra.Repository.Repositories
     public interface IScheduleTraining
     {
         Task<bool> SaveScheduleTrainings(IEnumerable<ScheduleTraining> scheduleTrainingDtos);
+        Task<bool> UpdateScheduleTrainings(ScheduleTraining scheduleTrainingDto);
     }
 }
