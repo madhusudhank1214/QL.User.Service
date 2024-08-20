@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
+using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
 
 namespace UserService.API.Controllers
@@ -76,6 +77,12 @@ namespace UserService.API.Controllers
         public async Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId)
         {
             return await _qlTrainingsRepository.GetRegisteredTrainingsByEmployee(employeeId);
+        }
+
+        [HttpPut("MarkAttendance")]
+        public async Task<IEnumerable<AttendanceResultDto>> MarkAttendance(List<MarkAttendance> empIds)
+        {
+            return await _qlTrainingsRepository.MarkAttendanceAsync(empIds);
         }
     }
 }

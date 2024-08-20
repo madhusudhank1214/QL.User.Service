@@ -1,10 +1,5 @@
 ﻿using QL.Infra.Models.Dto;
-using QL.Infra.Models.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QL.Infra.Models.Training;
 
 namespace QL.Infra.Repository.Repositories
 {
@@ -17,5 +12,6 @@ namespace QL.Infra.Repository.Repositories
         Task<bool> CancelScheduledTrainingAsync(Guid trainingId);
         Task<IEnumerable<QLTrainingsDto>> GetTrainingsforRegistration();
         Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId);
+        Task<IEnumerable<AttendanceResultDto>> MarkAttendanceAsync(List<MarkAttendance> empIds);
     }
 }

@@ -5,7 +5,6 @@ using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
 using System.Data.SqlClient;
 using System.Data;
-using System.Collections.Generic;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -193,5 +192,38 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
+
+        public async Task<IEnumerable<AttendanceResultDto>> MarkAttendanceAsync(List<MarkAttendance> employeeAttendances)
+        {
+            IEnumerable<AttendanceResultDto> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var attendanceTable = new DataTable();
+                    attendanceTable.Columns.Add("empid", typeof(string));
+                    attendanceTable.Columns.Add("isattended", typeof(bool));
+
+                    foreach (var emp in employeeAttendances)
+                    {
+                        attendanceTable.Rows.Add(emp.empId, emp.isAttended);
+                    }
+
+                    var parameters = new { AttendanceList = attendanceTable };
+                    var spName = "MarkAttendance";
+
+                    result = await connection.QueryAsync<AttendanceResultDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
     }
 }
+
