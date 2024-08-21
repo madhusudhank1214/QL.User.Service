@@ -18,12 +18,6 @@ namespace UserService.API.Controllers
             _qlTrainingsRepository = qlTrainingsRepository;
         }
 
-        [HttpGet("GetAllScheduleTrainings")]
-        public async Task<IEnumerable<ScheduleTrainingDTO>> GetAllScheduleTrainingsAsync()
-        {
-            return await _qlTrainingsRepository.GetAllScheduleTrainingsAsync();
-        }
-
         [HttpPost("RegisterTraining")]
         public async Task<IActionResult> RegisterTraining([FromBody] QLRegisterTrainingDTO model)
         {
@@ -51,18 +45,6 @@ namespace UserService.API.Controllers
             if (result)
             {
                 return Ok($" Training Id {trainingId} cancelled successfully.");
-            }
-
-            return NotFound("Training not found.");
-        }
-
-        [HttpPut("CancelScheduledTraining")]
-        public async Task<IActionResult> CancelScheduledTraining(Guid trainingId)
-        {
-            var result = await _qlTrainingsRepository.CancelScheduledTrainingAsync(trainingId);
-            if (result)
-            {
-                return Ok($" Scheduled Training Id {trainingId} cancelled successfully.");
             }
 
             return NotFound("Training not found.");

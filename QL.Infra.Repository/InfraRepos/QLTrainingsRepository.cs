@@ -17,28 +17,7 @@ namespace QL.Infra.Repository.InfraRepos
         {
             this.configuration = configuration;
         }
-
-        public async Task<IEnumerable<ScheduleTrainingDTO>> GetAllScheduleTrainingsAsync()
-        {
-            IEnumerable<ScheduleTrainingDTO> trainings;
-            try
-            {
-                var query = @"SELECT ID, TRAININGID, TOPIC, LEARNINGOBJECTIVES, FOCUSAREAS, MODE, VENUDURATION, FACILITATOR, 
-                            ISCANCELLED, STARTDATE, ENDDATE, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate
-                            FROM [dbo].[TRAININGSCHEDULE]";
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    trainings = await connection.QueryAsync<ScheduleTrainingDTO>(query);                    
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return trainings;
-        }
-
+        
         public async Task<int> RegisterTrainingAsync(QLRegisterTrainingDTO dto)
         {
             int id;
@@ -96,28 +75,6 @@ namespace QL.Infra.Repository.InfraRepos
                                WHERE [TrainingScheduleId] = @trainingId";
 
                     result = await connection.ExecuteAsync(query, new { @trainingId });                    
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result > 0;
-        }
-
-        public async Task<bool> CancelScheduledTrainingAsync(Guid trainingId)
-        {
-            int result;
-            try
-            {                
-                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
-                {
-                    var query = @"UPDATE [dbo].[TRAININGSCHEDULE] 
-                               SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
-                               WHERE [TRAININGID] = @trainingId";
-                    
-                    result = await connection.ExecuteAsync(query, new { @trainingId });
                 }
             }
             catch (Exception)
