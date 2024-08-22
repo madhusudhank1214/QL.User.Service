@@ -5,6 +5,7 @@ using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.Generic;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -25,7 +26,7 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 var query = @"SELECT ID, TRAININGID, TOPIC, LEARNINGOBJECTIVES, FOCUSAREAS, MODE, VENUDURATION, FACILITATOR, 
                             ISCANCELLED, STARTDATE, ENDDATE, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate
-                            FROM [dbo].[TRAININGSCHEDULE]";
+                            FROM [dbo].[TRAININGSCHEDULE] ORDER BY STARTDATE";
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     trainings = await connection.QueryAsync<ScheduleTrainingDTO>(query);                    
@@ -204,10 +205,11 @@ namespace QL.Infra.Repository.InfraRepos
                     var attendanceTable = new DataTable();
                     attendanceTable.Columns.Add("empid", typeof(string));
                     attendanceTable.Columns.Add("isattended", typeof(bool));
+                    attendanceTable.Columns.Add("trainingscheduleid", typeof(Guid));
 
                     foreach (var emp in employeeAttendances)
                     {
-                        attendanceTable.Rows.Add(emp.empId, emp.isAttended);
+                        attendanceTable.Rows.Add(emp.empId, emp.isAttended, emp.trainingScheduleId);
                     }
 
                     var parameters = new { AttendanceList = attendanceTable };
@@ -224,6 +226,49 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
+        public async Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainings()
+        {
+            IEnumerable<CompletedTrainingsDTO> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var query = @" SELECT TOPIC, ENDDATE AS CompletedOn FROM [dbo].[TRAININGSCHEDULE]
+                           WHERE Enddate >= GETDATE()";
+
+                    result = await connection.QueryAsync<CompletedTrainingsDTO>(query);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings()
+        {
+            IEnumerable<UpcomingTrainingsDTO> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var query = @" SELECT TOPIC, STARTDATE FROM [dbo].[TRAININGSCHEDULE]
+                            WHERE STARTDATE > GETDATE();";
+
+                    result = await connection.QueryAsync<UpcomingTrainingsDTO>(query);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
     }
 }
 

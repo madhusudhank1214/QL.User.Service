@@ -84,5 +84,17 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.MarkAttendanceAsync(empIds);
         }
+
+        [HttpGet("CompletedTrainings")]
+        public async Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainings()
+        {
+            return await _qlTrainingsRepository.CompletedTrainings();
+        }
+
+        [HttpGet("UpcomingTrainings")]
+        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings()
+        {
+            return await _qlTrainingsRepository.UpcomingTrainings();
+        }
     }
 }

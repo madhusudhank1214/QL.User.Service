@@ -4,5 +4,6 @@
     {
         public string empId { get; set; }
         public bool isAttended { get; set; }
+        public Guid trainingScheduleId { get; set; }
     }
 }

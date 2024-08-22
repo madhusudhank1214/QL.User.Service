@@ -13,5 +13,7 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<QLTrainingsDto>> GetTrainingsforRegistration();
         Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId);
         Task<IEnumerable<AttendanceResultDto>> MarkAttendanceAsync(List<MarkAttendance> empIds);
+        Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainings();
+        Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings();
     }
 }
