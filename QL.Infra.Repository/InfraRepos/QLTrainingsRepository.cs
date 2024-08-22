@@ -192,7 +192,7 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     var query = @" SELECT TOPIC, ENDDATE AS CompletedOn FROM [dbo].[TRAININGSCHEDULE]
-                           WHERE Enddate >= GETDATE()";
+                           WHERE Enddate >= GETDATE() ORDER BY CompletedOn";
 
                     result = await connection.QueryAsync<CompletedTrainingsDTO>(query);
                 }
@@ -214,7 +214,7 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     var query = @" SELECT TOPIC, STARTDATE FROM [dbo].[TRAININGSCHEDULE]
-                            WHERE STARTDATE > GETDATE();";
+                            WHERE STARTDATE > GETDATE() ORDER BY STARTDATE";
 
                     result = await connection.QueryAsync<UpcomingTrainingsDTO>(query);
                 }
