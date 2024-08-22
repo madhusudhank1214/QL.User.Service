@@ -8,6 +8,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using FluentValidation.Results;
+using QL.Infra.Repository.InfraRepos;
 
 namespace UserService.API.Controllers
 {
@@ -24,6 +25,13 @@ namespace UserService.API.Controllers
             _logger = logger;
             _validator = validator;
         }
+
+        [HttpGet("GetAllScheduleTrainings")]
+        public async Task<IEnumerable<ScheduleTrainingDTO>> GetAllScheduleTrainingsAsync()
+        {
+            return await _scheduleTraining.GetAllScheduleTrainingsAsync();
+        }
+
         [HttpPost("SaveScheduleTrainings")]
         public async Task<IActionResult> SaveScheduleTrainings(List<ScheduleTraining> scheduleTraining)
         {
@@ -44,6 +52,37 @@ namespace UserService.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        
+
+        [HttpPut("UpdateScheduleTrainings")]
+        public async Task<IActionResult> UpdateScheduleTrainings(ScheduleTraining scheduleTraining)
+        {
+
+            try
+            {
+
+                if (scheduleTraining.TrainingID==Guid.Empty)
+                {
+                    return BadRequest("TrainingID is Empty");
+                }
+                return Ok(await _scheduleTraining.UpdateScheduleTrainings(scheduleTraining));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut("CancelScheduledTraining")]
+        public async Task<IActionResult> CancelScheduledTraining(Guid trainingId)
+        {
+            var result = await _scheduleTraining.CancelScheduledTrainingAsync(trainingId);
+            if (result)
+            {
+                return Ok($" Scheduled Training Id {trainingId} cancelled successfully.");
+            }
+
+            return NotFound("Training not found.");
+        }
     }
 }

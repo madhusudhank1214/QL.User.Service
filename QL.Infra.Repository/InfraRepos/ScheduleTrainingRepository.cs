@@ -12,6 +12,7 @@ using QL.Infra.Repository.Repositories;
 using Dapper;
 using QL.Infra.Models.Training;
 using System.Globalization;
+using QL.Infra.Models.Constants;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -22,6 +23,28 @@ namespace QL.Infra.Repository.InfraRepos
         {
             _configuration = configuration;
         }
+
+        public async Task<IEnumerable<ScheduleTrainingDTO>> GetAllScheduleTrainingsAsync()
+        {
+            IEnumerable<ScheduleTrainingDTO> trainings;
+            try
+            {
+                var query = @"SELECT ID, TRAININGID, TOPIC, LEARNINGOBJECTIVES, FOCUSAREAS, MODE, VENUDURATION, FACILITATOR, 
+                            ISCANCELLED, STARTDATE, ENDDATE, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate
+                            FROM [dbo].[TRAININGSCHEDULE]";
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    trainings = await connection.QueryAsync<ScheduleTrainingDTO>(query);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return trainings;
+        }
+
         public async Task<bool> SaveScheduleTrainings(IEnumerable<ScheduleTraining> scheduleTrainingDtos)
         {
             try
@@ -53,6 +76,72 @@ namespace QL.Infra.Repository.InfraRepos
                     }
                 }
                 return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> CancelScheduledTrainingAsync(Guid trainingId)
+        {
+            int result;
+            try
+            {
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var query = @"UPDATE [dbo].[TRAININGSCHEDULE] 
+                               SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
+                               WHERE [TRAININGID] = @trainingId";
+
+                    result = await connection.ExecuteAsync(query, new { @trainingId });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result > 0;
+        }
+        public async Task<bool> UpdateScheduleTrainings(ScheduleTraining scheduleTraining)
+        {
+            
+            try
+            {
+                var parameters = new
+                {
+                    TrainingID = scheduleTraining.TrainingID,
+                    Topic = scheduleTraining.Topic,
+                    LearningObjectives = scheduleTraining.LearningObjectives,
+                    FocusAreas = scheduleTraining.FocusAreas,
+                    Mode = scheduleTraining.Mode,
+                    VenuDuration = scheduleTraining.Venuduration,
+                    Facilitator = scheduleTraining.Facilitator,
+                    IsCancelled = (scheduleTraining.IsCancelled.ToUpper() == "YES" ? true : false), 
+                    IsInternal = (scheduleTraining.IsInternal.ToUpper() == "YES" ? true : false),
+                    IsBuHeadApproval = (scheduleTraining.IsBuHeadApproval.ToUpper() == "YES" ? true : false),
+                    IsVirtual = (scheduleTraining.IsVirtual.ToUpper() == "YES" ? true : false),
+                    StartDate = scheduleTraining.StartDate,
+                    EndDate = scheduleTraining.EndDate,
+                    CreatedDate = scheduleTraining.CreatedDate,
+                    UpdatedDate = scheduleTraining.UpdatedDate
+                };
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "UpdateTrainingSchedule";
+                    int result = await connection.ExecuteAsync(spName, parameters, commandType: CommandType.StoredProcedure);
+                    if (result == 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
             }
             catch (Exception ex)
             {

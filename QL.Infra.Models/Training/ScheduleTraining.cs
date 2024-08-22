@@ -8,7 +8,7 @@ namespace QL.Infra.Models.Training
 {
     public class ScheduleTraining
     {
-        
+        public Guid? TrainingID {  get; set; }
         public string Topic { get; set; }
         public string LearningObjectives { get; set; }
         public string FocusAreas { get; set; }
@@ -23,6 +23,8 @@ namespace QL.Infra.Models.Training
         public string IsInternal { get; set; }
         public string IsVirtual { get; set; }
         public string Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
         
 }
