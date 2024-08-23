@@ -78,5 +78,11 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.UpcomingTrainings();
         }
+
+        [HttpPost("FilterTraining")]
+        public async Task<IEnumerable<QLTrainingsDto>> FilterTraining(FilterRequest filterRequest)
+        {
+            return await _qlTrainingsRepository.FilterTraining(filterRequest);
+        }
     }
 }
