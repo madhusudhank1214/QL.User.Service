@@ -6,6 +6,7 @@ using QL.Infra.Repository.Repositories;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
+using QL.Infra.Models.Employee;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -217,6 +218,36 @@ namespace QL.Infra.Repository.InfraRepos
                             WHERE STARTDATE > GETDATE() ORDER BY STARTDATE";
 
                     result = await connection.QueryAsync<UpcomingTrainingsDTO>(query);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<QLTrainingsDto>> FilterTraining(FilterRequest filterRequest)
+        {
+            IEnumerable<QLTrainingsDto> result;
+
+            try
+            {
+                var parameters = new
+                {
+                    StartDate= filterRequest.StartDate,
+                    EndDate= filterRequest.EndDate,
+                    Topic= filterRequest.Topic,
+                    Facilitator= filterRequest.Facilitator,
+                    IsInternal= filterRequest.IsInternal,
+                    IsVirtual= filterRequest.IsVirtual,
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "TrainingFilter";
+                    result = await connection.QueryAsync<QLTrainingsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
