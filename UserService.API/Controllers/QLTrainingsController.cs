@@ -35,19 +35,19 @@ namespace UserService.API.Controllers
 
             var result = await _qlTrainingsRepository.RegisterTrainingAsync(model);
             
-            return Ok(new { Id = result, Message = "Training registered successfully." });
+            return Ok(new { Id = result, Message = $"Training {model.TrainingScheduleId} registered successfully by Employee {model.EmpId}" });
         }
 
-        [HttpPut("CancelTraining")]
-        public async Task<IActionResult> CancelTraining(Guid trainingId)
+        [HttpPut("CancelRegisterTraining")]
+        public async Task<IActionResult> CancelRegisterTraining(Guid trainingId, string empId)
         {
-            var result = await _qlTrainingsRepository.CancelTrainingAsync(trainingId);
+            var result = await _qlTrainingsRepository.CancelRegisterTrainingAsync(trainingId, empId);
             if (result)
             {
                 return Ok($" Training Id {trainingId} cancelled successfully.");
             }
 
-            return NotFound("Training not found.");
+            return NotFound($"Training Id {trainingId} not found registered for the employee {empId}.");
         }
         
         [HttpGet("GetTrainingsforRegistration")]
@@ -77,6 +77,12 @@ namespace UserService.API.Controllers
         public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings()
         {
             return await _qlTrainingsRepository.UpcomingTrainings();
+        }
+
+        [HttpGet("GetEmployeesRegisteredToTraining")]
+        public async Task<IEnumerable<EmployeesRegisteredToTraining>> GetEmployeesRegisteredToTraining(Guid trainingId)
+        {
+            return await _qlTrainingsRepository.GetEmployeesRegisteredToTraining(trainingId);
         }
     }
 }
