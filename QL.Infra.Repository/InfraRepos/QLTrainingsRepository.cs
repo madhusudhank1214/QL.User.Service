@@ -220,6 +220,36 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
+        public async Task<IEnumerable<QLTrainingsDto>> FilterTraining(FilterRequest filterRequest)
+        {
+            IEnumerable<QLTrainingsDto> result;
+
+            try
+            {
+                var parameters = new
+                {
+                    StartDate= filterRequest.StartDate,
+                    EndDate= filterRequest.EndDate,
+                    Topic= filterRequest.Topic,
+                    Facilitator= filterRequest.Facilitator,
+                    IsInternal= filterRequest.IsInternal,
+                    IsVirtual= filterRequest.IsVirtual,
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "TrainingFilter";
+                    result = await connection.QueryAsync<QLTrainingsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
         public async Task<IEnumerable<EmployeesRegisteredToTraining>> GetEmployeesRegisteredToTraining(Guid trainingId)
         {
             IEnumerable<EmployeesRegisteredToTraining> result;

@@ -15,6 +15,8 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<AttendanceResultDto>> MarkAttendanceAsync(List<MarkAttendance> empIds);
         Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainings();
         Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings();
+
+        Task<IEnumerable<QLTrainingsDto>> FilterTraining(FilterRequest filterRequest);
         Task<IEnumerable<EmployeesRegisteredToTraining>> GetEmployeesRegisteredToTraining(Guid trainingId);
     }
 }
