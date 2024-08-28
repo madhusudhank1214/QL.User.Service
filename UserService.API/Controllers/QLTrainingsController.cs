@@ -55,6 +55,12 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.GetTrainingsforRegistration();
         }
+
+        [HttpGet("GetMandatoryTrainings")]
+        public async Task<IEnumerable<QLTrainingsDto>> GetMandatoryTrainings()
+        {
+            return await _qlTrainingsRepository.GetMandatoryTrainings();
+        }
         [HttpGet("GetRegisteredTrainingsByEmployee")]
         public async Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId)
         {

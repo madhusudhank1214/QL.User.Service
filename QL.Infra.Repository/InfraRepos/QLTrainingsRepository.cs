@@ -118,10 +118,32 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 
 
-                var query = "SELECT TRAININGID,TOPIC,LEARNINGOBJECTIVES as focusareas,FOCUSAREAS,MODE,VENUDURATION,FACILITATOR as facilitator,ISCANCELLED,STARTDATE as StartDate,ENDDATE as EndDate,Mode,ISBUHEADAPPROVAL,ISINTERNAL,ISVirtual FROM TRAININGSCHEDULE;";
+                var query = "SELECT TRAININGID,TOPIC,LEARNINGOBJECTIVES as focusareas,FOCUSAREAS,MODE,VENUDURATION,FACILITATOR as facilitator,ISCANCELLED,STARTDATE as StartDate,ENDDATE as EndDate,Mode,ISBUHEADAPPROVAL,ISINTERNAL,ISVirtual,IsMandatory FROM TRAININGSCHEDULE;";
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     
+                    var trainings = await connection.QueryAsync<QLTrainingsDto>(query);
+                    return trainings;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<QLTrainingsDto>> GetMandatoryTrainings()
+        {
+            IEnumerable<QLTrainingsDto> result;
+            try
+            {
+
+
+                var query = "SELECT TRAININGID,TOPIC,LEARNINGOBJECTIVES as focusareas,FOCUSAREAS,MODE,VENUDURATION,FACILITATOR as facilitator,ISCANCELLED,STARTDATE as StartDate,ENDDATE as EndDate,Mode,ISBUHEADAPPROVAL,ISINTERNAL,ISVirtual,IsMandatory FROM TRAININGSCHEDULE where IsMandatory=1;";
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+
                     var trainings = await connection.QueryAsync<QLTrainingsDto>(query);
                     return trainings;
                 }

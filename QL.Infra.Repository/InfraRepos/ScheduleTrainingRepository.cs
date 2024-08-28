@@ -30,7 +30,7 @@ namespace QL.Infra.Repository.InfraRepos
             try
             {
                 var query = @"SELECT ID, TRAININGID, TOPIC, LEARNINGOBJECTIVES, FOCUSAREAS, MODE, VENUDURATION, FACILITATOR, 
-                            ISCANCELLED, STARTDATE, ENDDATE, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate
+                            ISCANCELLED, STARTDATE, ENDDATE, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate,IsMandatory
                             FROM [dbo].[TRAININGSCHEDULE]";
                 using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -125,7 +125,8 @@ namespace QL.Infra.Repository.InfraRepos
                     StartDate = scheduleTraining.StartDate,
                     EndDate = scheduleTraining.EndDate,
                     CreatedDate = scheduleTraining.CreatedDate,
-                    UpdatedDate = scheduleTraining.UpdatedDate
+                    UpdatedDate = scheduleTraining.UpdatedDate,
+                    IsMandatory = (scheduleTraining.IsMandatory.ToUpper() == "YES" ? true : false)
                 };
                 using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -164,7 +165,10 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("IsBuHeadApproval", typeof(bool));
             table.Columns.Add("IsInternal", typeof(bool));
             table.Columns.Add("IsVirtual", typeof(bool));
+            table.Columns.Add("IsInternal", typeof(bool));
             table.Columns.Add("Id", typeof(Guid));
+            table.Columns.Add("IsMandatory", typeof(bool));
+
 
             CultureInfo provider = CultureInfo.InvariantCulture;
             
@@ -174,7 +178,7 @@ namespace QL.Infra.Repository.InfraRepos
 
                 DateTime startDate = DateTime.ParseExact(schedule.StartDate, format, provider);
                 DateTime endDate = DateTime.ParseExact(schedule.EndDate, format, provider);
-                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), new Guid(schedule.Id));
+                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), (schedule.IsMandatory.ToUpper() == "YES" ? true : false), new Guid(schedule.Id));
             }
 
             return table;
