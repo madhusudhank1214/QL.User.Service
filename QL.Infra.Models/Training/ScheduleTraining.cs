@@ -26,6 +26,8 @@ namespace QL.Infra.Models.Training
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string IsMandatory { get; set; }
+        public string Occurence { get; set; }
+
     }
         
 }
