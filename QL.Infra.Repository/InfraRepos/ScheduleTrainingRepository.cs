@@ -126,7 +126,8 @@ namespace QL.Infra.Repository.InfraRepos
                     EndDate = scheduleTraining.EndDate,
                     CreatedDate = scheduleTraining.CreatedDate,
                     UpdatedDate = scheduleTraining.UpdatedDate,
-                    IsMandatory = (scheduleTraining.IsMandatory.ToUpper() == "YES" ? true : false)
+                    IsMandatory = (scheduleTraining.IsMandatory.ToUpper() == "YES" ? true : false),
+                    Occurence= scheduleTraining.Occurence
                 };
                 using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -165,9 +166,9 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("IsBuHeadApproval", typeof(bool));
             table.Columns.Add("IsInternal", typeof(bool));
             table.Columns.Add("IsVirtual", typeof(bool));
-            table.Columns.Add("IsInternal", typeof(bool));
-            table.Columns.Add("Id", typeof(Guid));
             table.Columns.Add("IsMandatory", typeof(bool));
+            table.Columns.Add("Id", typeof(Guid));            
+            table.Columns.Add("Occurence", typeof(string));
 
 
             CultureInfo provider = CultureInfo.InvariantCulture;
@@ -178,7 +179,7 @@ namespace QL.Infra.Repository.InfraRepos
 
                 DateTime startDate = DateTime.ParseExact(schedule.StartDate, format, provider);
                 DateTime endDate = DateTime.ParseExact(schedule.EndDate, format, provider);
-                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), (schedule.IsMandatory.ToUpper() == "YES" ? true : false), new Guid(schedule.Id));
+                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), (schedule.IsMandatory.ToUpper() == "YES" ? true : false), new Guid(schedule.Id),schedule.Occurence);
             }
 
             return table;
