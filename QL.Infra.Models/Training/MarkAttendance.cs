@@ -2,7 +2,7 @@
 {
     public class MarkAttendance
     {
-        public string empId { get; set; }
+        public string empMail { get; set; }
         public bool isAttended { get; set; }
         public Guid trainingScheduleId { get; set; }
     }

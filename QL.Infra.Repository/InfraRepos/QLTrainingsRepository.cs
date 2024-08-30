@@ -27,17 +27,19 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     string query = @" INSERT INTO [dbo].[REGISTERTRAINING] 
-                                  (EmpId, ManagerId, TrainingScheduleId, RegisteredDate) 
+                                  (EmpMail, ManagerMail, TrainingScheduleId, EmpName, ManagerName, RegisteredDate) 
                                   VALUES 
-                                  (@EmpId, @ManagerId, @TrainingScheduleId, GETDATE())
+                                  (@EmpMail, @ManagerMail, @TrainingScheduleId, @EmpName, @ManagerName, GETDATE())
                                   
                                   SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = await connection.ExecuteScalarAsync<int>(query, new
                     {
-                        dto.EmpId,
-                        dto.ManagerId,
-                        dto.TrainingScheduleId
+                        dto.EmpMail,
+                        dto.ManagerMail,
+                        dto.TrainingScheduleId,
+                        dto.EmpName,
+                        dto.ManagerName
                     });
                 }
             }
@@ -49,7 +51,7 @@ namespace QL.Infra.Repository.InfraRepos
             return id;
         }
 
-        public async Task<bool> CancelRegisterTrainingAsync(Guid trainingScheduleId, string empId)
+        public async Task<bool> CancelRegisterTrainingAsync(Guid trainingScheduleId, string empMail)
         {
 
             int result;
@@ -57,16 +59,16 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var record = @"SELECT COUNT(*) FROM [dbo].[REGISTERTRAINING] WHERE [EmpId] = @empId AND [TrainingScheduleId] = @trainingScheduleId";
-                    var exist = await connection.QuerySingleOrDefaultAsync<bool>(record, new { empId, trainingScheduleId });
+                    var record = @"SELECT COUNT(*) FROM [dbo].[REGISTERTRAINING] WHERE [EmpMail] = @empMail AND [TrainingScheduleId] = @trainingScheduleId";
+                    var exist = await connection.QuerySingleOrDefaultAsync<bool>(record, new { empMail, trainingScheduleId });
 
                     if (exist)
                     {
                         var query = @"UPDATE [dbo].[REGISTERTRAINING] 
                                SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
-                               WHERE [EmpId] = @empId AND [TrainingScheduleId] = @trainingScheduleId";
+                               WHERE [EmpMail] = @empMail AND [TrainingScheduleId] = @trainingScheduleId";
 
-                        result = await connection.ExecuteAsync(query, new { empId, trainingScheduleId });
+                        result = await connection.ExecuteAsync(query, new { empMail, trainingScheduleId });
                         return result > 0;
                     }
                 }
@@ -86,11 +88,11 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @"SELECT COUNT(*) FROM [dbo].[REGISTERTRAINING] WHERE [EmpId] = @empId AND [TrainingScheduleId] = @trainingScheduleId";
+                    var query = @"SELECT COUNT(*) FROM [dbo].[REGISTERTRAINING] WHERE [EmpMail] = @empMail AND [TrainingScheduleId] = @trainingScheduleId";
 
                     result = await connection.QuerySingleOrDefaultAsync<bool>(query, new
                     {
-                        dto.EmpId,
+                        dto.EmpMail,
                         dto.TrainingScheduleId
                     });
                 }
@@ -124,12 +126,12 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
-        public async Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId)
+        public async Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeMail)
         {
             IEnumerable<QLTrainingRegistrationDto> result;
             try
             {
-                var parameters = new { EmployeeId = employeeId };
+                var parameters = new { EmployeeMail = employeeMail };
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     connection.Open();
@@ -153,13 +155,13 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     var attendanceTable = new DataTable();
-                    attendanceTable.Columns.Add("empid", typeof(string));
+                    attendanceTable.Columns.Add("empmail", typeof(string));
                     attendanceTable.Columns.Add("isattended", typeof(bool));
                     attendanceTable.Columns.Add("trainingscheduleid", typeof(Guid));
 
                     foreach (var emp in employeeAttendances)
                     {
-                        attendanceTable.Rows.Add(emp.empId, emp.isAttended, emp.trainingScheduleId);
+                        attendanceTable.Rows.Add(emp.empMail, emp.isAttended, emp.trainingScheduleId);
                     }
 
                     var parameters = new { AttendanceList = attendanceTable };
@@ -258,10 +260,9 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @"SELECT R.EmpId, Q.Name, R.IsAttended
-                               FROM DBO.REGISTERTRAINING AS R
-                               JOIN DBO.QLEmployees AS Q ON R.EmpId = Q.EmpId
-                               WHERE R.TrainingScheduleId = @trainingId";
+                    var query = @"SELECT EmpMail, EmpName, IsAttended
+                                FROM DBO.REGISTERTRAINING 
+                                WHERE TrainingScheduleId = @trainingId";
 
                     result = await connection.QueryAsync<EmployeesRegisteredToTraining>(query, new { @trainingId });
                 }
@@ -272,7 +273,7 @@ namespace QL.Infra.Repository.InfraRepos
             }
 
             return result;
-        }        
+        }             
     }
 }
 

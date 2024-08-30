@@ -30,24 +30,24 @@ namespace UserService.API.Controllers
 
             if (exists)
             {
-                return Conflict($" Training {model.TrainingScheduleId} already registered with Employee {model.EmpId}");
+                return Conflict($" Training {model.TrainingScheduleId} already registered with Employee {model.EmpMail}");
             }
 
             var result = await _qlTrainingsRepository.RegisterTrainingAsync(model);
             
-            return Ok(new { Id = result, Message = $"Training {model.TrainingScheduleId} registered successfully by Employee {model.EmpId}" });
+            return Ok(new { Id = result, Message = $"Training {model.TrainingScheduleId} registered successfully by Employee {model.EmpMail}" });
         }
 
         [HttpPut("CancelRegisterTraining")]
-        public async Task<IActionResult> CancelRegisterTraining(Guid trainingId, string empId)
+        public async Task<IActionResult> CancelRegisterTraining(Guid trainingId, string empMail)
         {
-            var result = await _qlTrainingsRepository.CancelRegisterTrainingAsync(trainingId, empId);
+            var result = await _qlTrainingsRepository.CancelRegisterTrainingAsync(trainingId, empMail);
             if (result)
             {
-                return Ok($" Training Id {trainingId} cancelled successfully.");
+                return Ok($" Training Id {trainingId} cancelled successfully for the employee {empMail}.");
             }
 
-            return NotFound($"Training Id {trainingId} not found registered for the employee {empId}.");
+            return NotFound($"Training Id {trainingId} not found registered for the employee {empMail}.");
         }
         
         [HttpGet("GetTrainingsforRegistration")]
@@ -56,9 +56,9 @@ namespace UserService.API.Controllers
             return await _qlTrainingsRepository.GetTrainingsforRegistration();
         }
         [HttpGet("GetRegisteredTrainingsByEmployee")]
-        public async Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId)
+        public async Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeMail)
         {
-            return await _qlTrainingsRepository.GetRegisteredTrainingsByEmployee(employeeId);
+            return await _qlTrainingsRepository.GetRegisteredTrainingsByEmployee(employeeMail);
         }
 
         [HttpPut("MarkAttendance")]

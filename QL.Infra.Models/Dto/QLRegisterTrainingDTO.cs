@@ -2,8 +2,10 @@
 {
     public class QLRegisterTrainingDTO
     {
-        public string EmpId { get; set; }
-        public string ManagerId { get; set; }
-        public Guid TrainingScheduleId { get; set; }        
+        public string EmpMail { get; set; }
+        public string ManagerMail { get; set; }
+        public Guid TrainingScheduleId { get; set; }
+        public string EmpName { get; set; }
+        public string ManagerName { get; set; }
     }
 }
