@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
@@ -6,6 +7,7 @@ using QL.Infra.Repository.Repositories;
 namespace UserService.API.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class QLTrainingsController : ControllerBase
     {

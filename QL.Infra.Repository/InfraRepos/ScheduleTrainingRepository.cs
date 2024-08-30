@@ -172,7 +172,7 @@ namespace QL.Infra.Repository.InfraRepos
 
             CultureInfo provider = CultureInfo.InvariantCulture;
             
-            string format = "dd-MM-yy";
+            string format = "dd-MM-yyyy";
             foreach (var schedule in schedules)
             {
 

@@ -1,18 +1,14 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
-using System;
-using System.ComponentModel.DataAnnotations;
-using FluentValidation;
-using FluentValidation.Results;
-using QL.Infra.Repository.InfraRepos;
+using Microsoft.AspNetCore.Cors;
 
 namespace UserService.API.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class ScheduleTrainingController: ControllerBase
     {
