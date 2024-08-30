@@ -9,10 +9,9 @@ namespace QL.Infra.Models.Dto
 {
     public class QLTrainingRegistrationDto
     {
-        public string EmployeeId {  get; set; }
-        public string EmployeeName { get; set; }
-        public string ManagerId { get; set; }
-        public string ManagerName { get; set; }
+        public string EmpMail {  get; set; }
+        public string EmpName { get; set; }
+        public string ManagerMail { get; set; }        
         public string TOPIC { get; set; }
         public string Facilitator { get; set; }
         public DateTime RegisteredDate { get; set; }
