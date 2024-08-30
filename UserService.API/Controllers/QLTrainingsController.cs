@@ -22,17 +22,12 @@ namespace UserService.API.Controllers
 
         [HttpPost("RegisterTraining")]
         public async Task<IActionResult> RegisterTraining([FromBody] QLRegisterTrainingDTO model)
-        {
-            if (model == null)
-            {
-                return BadRequest("Invalid details.");
-            }
-
+        {            
             var exists = await _qlTrainingsRepository.TrainingAlreadyRegistered(model);
 
             if (exists)
             {
-                return Conflict($" Training {model.TrainingScheduleId} already registered with Employee {model.EmpMail}");
+                return BadRequest($" Training {model.TrainingScheduleId} already registered with Employee {model.EmpMail}");
             }
 
             var result = await _qlTrainingsRepository.RegisterTrainingAsync(model);
