@@ -11,6 +11,7 @@ namespace QL.Infra.Repository.Repositories
         Task<bool> TrainingAlreadyRegistered(QLRegisterTrainingDTO dto);
         
         Task<IEnumerable<QLTrainingsDto>> GetTrainingsforRegistration();
+        Task<IEnumerable<QLTrainingsDto>> GetMandatoryTrainings();
         Task<IEnumerable<QLTrainingRegistrationDto>> GetRegisteredTrainingsByEmployee(string employeeId);
         Task<IEnumerable<AttendanceResultDto>> MarkAttendanceAsync(List<MarkAttendance> empIds);
         Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainings();

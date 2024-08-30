@@ -21,6 +21,7 @@ namespace UserService.API.Validators
             RuleFor(schedule => schedule.IsBuHeadApproval).NotEmpty();
             RuleFor(schedule => schedule.IsInternal).NotEmpty();
             RuleFor(schedule => schedule.IsVirtual).NotEmpty();
+            RuleFor(schedule => schedule.IsMandatory).NotEmpty();
 
         }
     }
