@@ -27,7 +27,7 @@ namespace UserService.API.Controllers
 
             if (exists)
             {
-                return BadRequest($" Training {model.TrainingScheduleId} already registered with Employee {model.EmpMail}");
+                return BadRequest($"Training already registered.");
             }
 
             var result = await _qlTrainingsRepository.RegisterTrainingAsync(model);
