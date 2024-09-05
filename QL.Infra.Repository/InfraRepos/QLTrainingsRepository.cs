@@ -208,10 +208,9 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @" SELECT TOPIC, TRAININGID, ENDDATE AS CompletedOn FROM [dbo].[TRAININGSCHEDULE]
-                           WHERE Enddate >= GETDATE() ORDER BY CompletedOn";
+                    var spName = "CompletedTrainingsDetails";
 
-                    result = await connection.QueryAsync<CompletedTrainingsDTO>(query);
+                    result = await connection.QueryAsync<CompletedTrainingsDTO>(spName, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
@@ -230,10 +229,9 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @" SELECT TOPIC, STARTDATE FROM [dbo].[TRAININGSCHEDULE]
-                            WHERE STARTDATE > GETDATE() ORDER BY STARTDATE";
+                    var spName = "GetUpcomingTrainingsDetails";
 
-                    result = await connection.QueryAsync<UpcomingTrainingsDTO>(query);
+                    result = await connection.QueryAsync<UpcomingTrainingsDTO>(spName, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
@@ -295,7 +293,29 @@ namespace QL.Infra.Repository.InfraRepos
             }
 
             return result;
-        }             
+        }
+
+        public async Task<IEnumerable<OptedTrainingsDTO>> OptedTrainings(string employeeMail)
+        {
+            IEnumerable<OptedTrainingsDTO> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var parameters = new { EmployeeMail = employeeMail };
+                    var spName = "OptedTrainings";
+                    result = await connection.QueryAsync<OptedTrainingsDTO>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return result;
+        }
     }
 }
 

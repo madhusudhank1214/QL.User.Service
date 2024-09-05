@@ -93,5 +93,11 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.GetEmployeesRegisteredToTraining(trainingId);
         }
+
+        [HttpGet("OptedTrainings")]
+        public async Task<IEnumerable<OptedTrainingsDTO>> OptedTrainings(string employeeMail)
+        {
+            return await _qlTrainingsRepository.OptedTrainings(employeeMail);
+        }
     }
 }
