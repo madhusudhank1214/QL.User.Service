@@ -20,5 +20,7 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<QLTrainingsDto>> FilterTraining(FilterRequest filterRequest);
         Task<IEnumerable<EmployeesRegisteredToTraining>> GetEmployeesRegisteredToTraining(Guid trainingId);
         Task<IEnumerable<OptedTrainingsDTO>> OptedTrainings(string employeeMail);
+        Task<bool> ManagerApproval(Guid trainingScheduleId);
+        Task<bool> BuHeadApproval(Guid trainingScheduleId);
     }
 }

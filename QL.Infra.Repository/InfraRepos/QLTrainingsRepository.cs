@@ -316,6 +316,60 @@ namespace QL.Infra.Repository.InfraRepos
 
             return result;
         }
+
+        public async Task<bool> ManagerApproval(Guid trainingScheduleId)
+        {
+            bool result;
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var query = @"select * from [dbo].[REGISTERTRAINING] where [TrainingScheduleId] = @trainingScheduleId";
+                    var training = await connection.QuerySingleOrDefaultAsync(query,new { trainingScheduleId });
+                    if(training != null)
+                    {
+                        var updateQuery = @"UPDATE [dbo].[REGISTERTRAINING] 
+                               SET [IsManagerApproved] = 1
+                               WHERE [TrainingScheduleId] = @trainingScheduleId";
+
+                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId });
+                        return result = rowAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return false;
+        }
+
+        public async Task<bool> BuHeadApproval(Guid trainingScheduleId)
+        {
+            bool result;
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var query = @"select * from [dbo].[REGISTERTRAINING] where [TrainingScheduleId] = @trainingScheduleId";
+                    var training = await connection.QuerySingleOrDefaultAsync(query, new { trainingScheduleId });
+                    if (training != null)
+                    {
+                        var updateQuery = @"UPDATE [dbo].[REGISTERTRAINING] 
+                               SET [IsBuHeadApproved] = 1
+                               WHERE [TrainingScheduleId] = @trainingScheduleId";
+
+                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId });
+                        return result = rowAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return false;
+        }
     }
 }
 

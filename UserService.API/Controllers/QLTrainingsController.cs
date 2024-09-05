@@ -99,5 +99,29 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.OptedTrainings(employeeMail);
         }
+
+        [HttpPut("ManagerApproval")]
+        public async Task<IActionResult> ManagerApproval(Guid trainingScheduleId)
+        {
+            var result = await _qlTrainingsRepository.ManagerApproval(trainingScheduleId);
+            if (result)
+            {
+                return Ok($" Training Id {trainingScheduleId} is approved by manager.");
+            }
+
+            return NotFound($"Training Id {trainingScheduleId} not found.");
+        }
+
+        [HttpPut("BuHeadApproval")]
+        public async Task<IActionResult> BuHeadApproval(Guid trainingScheduleId)
+        {
+            var result = await _qlTrainingsRepository.BuHeadApproval(trainingScheduleId);
+            if (result)
+            {
+                return Ok($" Training Id {trainingScheduleId} is approved by BuHead.");
+            }
+
+            return NotFound($"Training Id {trainingScheduleId} not found.");
+        }
     }
 }
