@@ -7,5 +7,6 @@
         public string TutorName { get; set; }
         public string VirtualOrInternal { get; set; }
         public string Description { get; set; }
+        public string Duration { get; set; }
     }
 }
