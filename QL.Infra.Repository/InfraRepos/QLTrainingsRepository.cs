@@ -27,9 +27,9 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     string query = @" INSERT INTO [dbo].[REGISTERTRAINING] 
-                                  (EmpMail, ManagerMail, TrainingScheduleId, EmpName, ManagerName, RegisteredDate) 
+                                  (EmpMail, ManagerMail, TrainingScheduleId, EmpName, ManagerName, RegisteredDate,BuHeadMail) 
                                   VALUES 
-                                  (@EmpMail, @ManagerMail, @TrainingScheduleId, @EmpName, @ManagerName, GETDATE())
+                                  (@EmpMail, @ManagerMail, @TrainingScheduleId, @EmpName, @ManagerName, GETDATE(),@BuHeadMail)
                                   
                                   SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -39,7 +39,8 @@ namespace QL.Infra.Repository.InfraRepos
                         dto.ManagerMail,
                         dto.TrainingScheduleId,
                         dto.EmpName,
-                        dto.ManagerName
+                        dto.ManagerName,
+                        dto.BuHeadMail
                     });
                 }
             }
