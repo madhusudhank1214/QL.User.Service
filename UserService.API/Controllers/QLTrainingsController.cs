@@ -123,5 +123,23 @@ namespace UserService.API.Controllers
 
             return NotFound($"Training Id {trainingScheduleId} not found.");
         }
+
+        [HttpGet("PendingApprovalsForManager")]
+        public async Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForManager(string managerMail)
+        {
+            return await _qlTrainingsRepository.PendingApprovalsForManager(managerMail);
+        }
+
+        [HttpGet("PendingApprovalsForBUHead")]
+        public async Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForBUHead()
+        {
+            return await _qlTrainingsRepository.PendingApprovalsForBUHead();
+        }
+
+        [HttpGet("CompletedTrainingsByEmployee")]
+        public async Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainingsByEmployee(string empMail)
+        {
+            return await _qlTrainingsRepository.CompletedTrainingsByEmployee(empMail);
+        }
     }
 }

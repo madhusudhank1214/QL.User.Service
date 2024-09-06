@@ -371,6 +371,70 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return false;
         }
+
+        public async Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForManager(string managerMail)
+        {
+            IEnumerable<PendingApprovalsDTO> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var parameters = new { IsManager = true, Email = managerMail };
+                    var spName = "GetPendingApprovals";
+                    result = await connection.QueryAsync<PendingApprovalsDTO>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForBUHead()
+        {
+            IEnumerable<PendingApprovalsDTO> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var parameters = new { IsManager = false };
+                    var spName = "GetPendingApprovals";
+                    result = await connection.QueryAsync<PendingApprovalsDTO>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainingsByEmployee(string empMail)
+        {
+            IEnumerable<CompletedTrainingsDTO> result;
+
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var parameters = new { EmployeeMail = empMail };
+                    var spName = "CompletedTrainingsByEmployeeDetails";
+
+                    result = await connection.QueryAsync<CompletedTrainingsDTO>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
     }
 }
 

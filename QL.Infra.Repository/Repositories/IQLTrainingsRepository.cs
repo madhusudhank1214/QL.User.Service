@@ -22,5 +22,8 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<OptedTrainingsDTO>> OptedTrainings(string employeeMail);
         Task<bool> ManagerApproval(Guid trainingScheduleId);
         Task<bool> BuHeadApproval(Guid trainingScheduleId);
+        Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForManager(string managerMail);
+        Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForBUHead();
+        Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainingsByEmployee(string empMail);
     }
 }
