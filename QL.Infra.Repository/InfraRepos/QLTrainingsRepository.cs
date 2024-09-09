@@ -435,6 +435,63 @@ namespace QL.Infra.Repository.InfraRepos
 
             return result;
         }
+
+        public async Task<IEnumerable<TrainingAttendanceRecords>> InsertTrainingAttendanceRecords(TrainingAttendanceRecords request)
+        {
+            IEnumerable<TrainingAttendanceRecords> result;
+            try
+            {
+                var parameters = new
+                {
+                    TrainingID = request.TrainingID,
+                    EmailAddress = request.EmailAddress,
+                    Date = request.Date,
+                    IsAttended = request.IsAttended,
+                    Comments = request.Comments
+
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "SaveTrainingAttendanceRecords";
+                    result = await connection.QueryAsync<TrainingAttendanceRecords>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<TrainingAttendanceRecordsDto>> UpdateTrainingAttendanceRecords(TrainingAttendanceRecordsDto request)
+        {
+            IEnumerable<TrainingAttendanceRecordsDto> result;
+            try
+            {
+                var parameters = new
+                {
+                    TrainingID = request.TrainingID,
+                    EmailAddress = request.EmailAddress,
+                    IsAttended = request.IsAttended,
+                    Comments = request.Comments
+
+                };
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    connection.Open();
+                    var spName = "UpdateTrainingAttendanceRecords";
+                    result = await connection.QueryAsync<TrainingAttendanceRecordsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }
 
