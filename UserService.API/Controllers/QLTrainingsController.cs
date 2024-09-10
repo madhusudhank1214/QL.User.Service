@@ -143,5 +143,19 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.CompletedTrainingsByEmployee(empMail);
         }
+
+        //Insert the data into the TrainingAttendanceRecords table 
+        [HttpPost("InsertTrainingAttendanceRecords")]
+        public async Task<IEnumerable<TrainingAttendanceRecords>> InsertTrainingAttendanceRecords(TrainingAttendanceRecords request)
+        {
+            return await _qlTrainingsRepository.InsertTrainingAttendanceRecords(request);
+        }
+
+        //Updates the Comments and IsAttended records into the TrainingAttendanceRecords table based on EmailAddress and TrainingID 
+        [HttpPut("UpdateTrainingAttendanceRecords")]
+        public async Task<IEnumerable<TrainingAttendanceRecordsDto>> UpdateTrainingAttendanceRecords(TrainingAttendanceRecordsDto request)
+        {
+            return await _qlTrainingsRepository.UpdateTrainingAttendanceRecords(request);
+        }
     }
 }

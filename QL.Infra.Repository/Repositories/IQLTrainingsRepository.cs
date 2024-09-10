@@ -25,5 +25,7 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForManager(string managerMail);
         Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForBUHead();
         Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainingsByEmployee(string empMail);
+        Task<IEnumerable<TrainingAttendanceRecords>> InsertTrainingAttendanceRecords(TrainingAttendanceRecords request);
+        Task<IEnumerable<TrainingAttendanceRecordsDto>> UpdateTrainingAttendanceRecords(TrainingAttendanceRecordsDto request);
     }
 }

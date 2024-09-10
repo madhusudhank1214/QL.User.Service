@@ -8,7 +8,7 @@
         public string EmpName { get; set; }
         public string ManagerName { get; set; }
 
-        public string BuHeadMail { get; set; }
+        public string? BuHeadMail { get; set; }
 
     }
 }
