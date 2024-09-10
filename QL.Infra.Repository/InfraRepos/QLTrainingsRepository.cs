@@ -128,18 +128,22 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
-        public async Task<IEnumerable<QLTrainingsDto>> GetMandatoryTrainings()
+        public async Task<IEnumerable<QLRegisterTrainingDto>> GetMandatoryTrainings(string empMail)
         {
-            IEnumerable<QLTrainingsDto> result;
+            IEnumerable<QLRegisterTrainingDto> result;
             try
             {
 
 
-                var query = "SELECT TRAININGID,TOPIC,LEARNINGOBJECTIVES as focusareas,FOCUSAREAS,MODE,VENUDURATION,FACILITATOR as facilitator,ISCANCELLED,STARTDATE as StartDate,ENDDATE as EndDate,Mode,ISBUHEADAPPROVAL,ISINTERNAL,ISVirtual,IsMandatory FROM TRAININGSCHEDULE where IsMandatory=1;";
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
 
-                    var trainings = await connection.QueryAsync<QLTrainingsDto>(query);
+                    //var query = "SELECT TRAININGID,TOPIC,LEARNINGOBJECTIVES as focusareas,FOCUSAREAS,MODE,VENUDURATION,FACILITATOR as facilitator,ISCANCELLED,STARTDATE as StartDate,ENDDATE as EndDate,Mode,ISBUHEADAPPROVAL,ISINTERNAL,ISVirtual,IsMandatory FROM TRAININGSCHEDULE where IsMandatory=1;";
+                    var query = @"SELECT T.TRAININGID,T.TOPIC,T.LEARNINGOBJECTIVES as focusareas,T.FOCUSAREAS,T.MODE,T.VENUDURATION,T.FACILITATOR as facilitator,
+                                T.ISCANCELLED,T.STARTDATE as StartDate,T.ENDDATE as EndDate,T.Mode,T.ISBUHEADAPPROVAL,T.ISINTERNAL,T.ISVirtual,T.IsMandatory,
+                                R.IsAttended,R.IsManagerApproved,R.IsBuheadApproved
+                                FROM TRAININGSCHEDULE T Join RegisterTraining R on T.TrainingId = R.TrainingScheduleId where IsMandatory=1 and (@empMail IS NULL OR R.EmpMail = @empMail); ";
+                    var trainings = await connection.QueryAsync<QLRegisterTrainingDto>(query, new {@empMail});
                     return trainings;
                 }
             }
