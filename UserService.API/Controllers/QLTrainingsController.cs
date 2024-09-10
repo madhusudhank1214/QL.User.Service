@@ -39,12 +39,14 @@ namespace UserService.API.Controllers
         public async Task<IActionResult> CancelRegisterTraining(Guid trainingId, string empMail)
         {
             var result = await _qlTrainingsRepository.CancelRegisterTrainingAsync(trainingId, empMail);
-            if (result)
-            {
-                return Ok($" Training Id {trainingId} cancelled successfully for the employee {empMail}.");
-            }
 
-            return NotFound($"Training Id {trainingId} not found registered for the employee {empMail}.");
+            return result switch
+            {
+                "Training is already cancelled." => BadRequest(new { Message = result }),
+                "Training has already started." => BadRequest(new { Message = $"Sorry, {result}" }),
+                "Training was not started and has now been cancelled." => Ok(new { Message = $"Training Id {trainingId} cancelled successfully for the employee {empMail}." }),
+                _ => NotFound(new { Message = $"Training Id {trainingId} not found registered for the employee {empMail}." })
+            };
         }
         
         [HttpGet("GetTrainingsforRegistration")]

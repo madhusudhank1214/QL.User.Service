@@ -1,18 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
-using QL.Infra.Models.InnovateIdea;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using QL.Infra.Models.Dto;
 using QL.Infra.Repository.Repositories;
 using Dapper;
 using QL.Infra.Models.Training;
 using System.Globalization;
-using QL.Infra.Models.Constants;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -83,26 +76,22 @@ namespace QL.Infra.Repository.InfraRepos
             }
         }
 
-        public async Task<bool> CancelScheduledTrainingAsync(Guid trainingId)
-        {
-            int result;
+        public async Task<string> CancelScheduledTrainingAsync(Guid trainingId)
+        {            
             try
             {
                 using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @"UPDATE [dbo].[TRAININGSCHEDULE] 
-                               SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
-                               WHERE [TRAININGID] = @trainingId";
-
-                    result = await connection.ExecuteAsync(query, new { @trainingId });
+                    var spName = "CancelScheduleTraining";
+                    var parameters = new {TrainingId = trainingId};
+                    var result = await connection.QuerySingleOrDefaultAsync<string>(spName, parameters, commandType: CommandType.StoredProcedure);                    
+                    return result;
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-
-            return result > 0;
         }
         public async Task<bool> UpdateScheduleTrainings(ScheduleTraining scheduleTraining)
         {

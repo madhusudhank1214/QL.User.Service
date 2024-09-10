@@ -9,5 +9,6 @@
         public DateTime RegisteredDate { get; set; }
         public DateTime StartDate { get; set; }
         public bool IsCancelled { get; set; }
+        public string? VirtualOrInternal { get; set; }
     }
 }
