@@ -30,7 +30,7 @@ namespace QL.Infra.Repository.InfraRepos
                                   (EmpMail, ManagerMail, TrainingScheduleId, EmpName, ManagerName, RegisteredDate,BuHeadMail) 
                                   VALUES 
                                   (@EmpMail, @ManagerMail, @TrainingScheduleId, @EmpName, @ManagerName, GETDATE(),@BuHeadMail)
-                                  
+
                                   SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = await connection.ExecuteScalarAsync<int>(query, new
@@ -52,26 +52,16 @@ namespace QL.Infra.Repository.InfraRepos
             return id;
         }
 
-        public async Task<bool> CancelRegisterTrainingAsync(Guid trainingScheduleId, string empMail)
+        public async Task<string> CancelRegisterTrainingAsync(Guid trainingScheduleId, string empMail)
         {
-
-            int result;
+            string? training;
             try
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var record = @"SELECT COUNT(*) FROM [dbo].[REGISTERTRAINING] WHERE [EmpMail] = @empMail AND [TrainingScheduleId] = @trainingScheduleId";
-                    var exist = await connection.QuerySingleOrDefaultAsync<bool>(record, new { empMail, trainingScheduleId });
-
-                    if (exist)
-                    {
-                        var query = @"UPDATE [dbo].[REGISTERTRAINING] 
-                               SET [IsCancelled] = 1, [UpdatedDate] = GETDATE()
-                               WHERE [EmpMail] = @empMail AND [TrainingScheduleId] = @trainingScheduleId";
-
-                        result = await connection.ExecuteAsync(query, new { empMail, trainingScheduleId });
-                        return result > 0;
-                    }
+                    var spName = "CancelRegisterTraining";
+                    var parameters = new { EmpMail = empMail, TrainingScheduleId = trainingScheduleId };
+                    return await connection.QuerySingleOrDefaultAsync<string>(spName, parameters, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
@@ -79,7 +69,7 @@ namespace QL.Infra.Repository.InfraRepos
                 throw;
             }
 
-            return false;
+            return training;
         }
 
         public async Task<bool> TrainingAlreadyRegistered(QLRegisterTrainingDTO dto)

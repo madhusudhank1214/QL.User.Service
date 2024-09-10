@@ -7,7 +7,7 @@ namespace QL.Infra.Repository.Repositories
     {
         Task<int> RegisterTrainingAsync(QLRegisterTrainingDTO dto);
         
-        Task<bool> CancelRegisterTrainingAsync(Guid trainingId, string empId);
+        Task<string> CancelRegisterTrainingAsync(Guid trainingId, string empId);
         Task<bool> TrainingAlreadyRegistered(QLRegisterTrainingDTO dto);
         
         Task<IEnumerable<QLTrainingsDto>> GetTrainingsforRegistration();

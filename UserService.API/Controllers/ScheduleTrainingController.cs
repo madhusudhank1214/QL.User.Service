@@ -73,12 +73,16 @@ namespace UserService.API.Controllers
         public async Task<IActionResult> CancelScheduledTraining(Guid trainingId)
         {
             var result = await _scheduleTraining.CancelScheduledTrainingAsync(trainingId);
-            if (result)
-            {
-                return Ok($" Scheduled Training Id {trainingId} cancelled successfully.");
-            }
 
-            return NotFound("Training not found.");
+            return result switch
+            {
+                "Training is already cancelled." => BadRequest(new { Message = result }),
+                "Training has already started." => BadRequest(new { Message = $"Sorry, {result}" }),
+                "Training was not started and has now been cancelled." => Ok(new { Message = $"Scheduled Training Id {trainingId} cancelled successfully." }),
+                _ => NotFound(new { Message = "Training not found." })
+            };
         }
+
+
     }
 }

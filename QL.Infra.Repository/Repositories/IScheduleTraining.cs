@@ -13,6 +13,6 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<ScheduleTrainingDTO>> GetAllScheduleTrainingsAsync();
         Task<bool> SaveScheduleTrainings(IEnumerable<ScheduleTraining> scheduleTrainingDtos);
         Task<bool> UpdateScheduleTrainings(ScheduleTraining scheduleTrainingDto);
-        Task<bool> CancelScheduledTrainingAsync(Guid trainingId);
+        Task<string> CancelScheduledTrainingAsync(Guid trainingId);
     }
 }
