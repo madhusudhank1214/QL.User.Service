@@ -27,5 +27,6 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainingsByEmployee(string empMail);
         Task<IEnumerable<TrainingAttendanceRecords>> InsertTrainingAttendanceRecords(TrainingAttendanceRecords request);
         Task<IEnumerable<TrainingAttendanceRecordsDto>> UpdateTrainingAttendanceRecords(TrainingAttendanceRecordsDto request);
+        Task<IEnumerable<BuHeadDetailDto>> GetBuHeadDetails();
     }
 }

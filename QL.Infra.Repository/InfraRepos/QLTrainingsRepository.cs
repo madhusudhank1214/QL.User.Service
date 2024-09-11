@@ -486,6 +486,24 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return result;
         }
+
+        public async Task<IEnumerable<BuHeadDetailDto>> GetBuHeadDetails()
+        {
+            try
+            {
+                var query = "select * from BuHeadDetails;";
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+
+                    var buHeadDetails = await connection.QueryAsync<BuHeadDetailDto>(query);
+                    return buHeadDetails;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

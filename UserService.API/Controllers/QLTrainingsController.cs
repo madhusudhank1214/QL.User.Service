@@ -157,5 +157,11 @@ namespace UserService.API.Controllers
         {
             return await _qlTrainingsRepository.UpdateTrainingAttendanceRecords(request);
         }
+
+        [HttpGet("GetBuHeadDetails")]
+        public async Task<IEnumerable<BuHeadDetailDto>> GetBuHeadDetails()
+        {
+            return await _qlTrainingsRepository.GetBuHeadDetails();
+        }
     }
 }
