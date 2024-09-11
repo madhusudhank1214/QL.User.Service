@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using LMSService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Training;
@@ -13,11 +14,12 @@ namespace UserService.API.Controllers
     {
         private readonly ILogger<QLTrainingsController> _logger;
         private IQLTrainingsRepository _qlTrainingsRepository;
-
-        public QLTrainingsController(IQLTrainingsRepository qlTrainingsRepository, ILogger<QLTrainingsController> logger)
+        private IEmailSender _emailSender;
+        public QLTrainingsController(IQLTrainingsRepository qlTrainingsRepository, ILogger<QLTrainingsController> logger, IEmailSender emailSender)
         {
             _logger = logger;
             _qlTrainingsRepository = qlTrainingsRepository;
+            _emailSender = emailSender;
         }
 
         [HttpPost("RegisterTraining")]
@@ -31,7 +33,9 @@ namespace UserService.API.Controllers
             }
 
             var result = await _qlTrainingsRepository.RegisterTrainingAsync(model);
-            
+            string ManagerEmailSubject = "Approval Request for Employee Training Program";
+            string ApprovalRequestTemplate = "ApprovalRequestTemplate";
+            await _emailSender.SendEmailAsync("mohd.majeed@qentelli.com", ManagerEmailSubject, "", ApprovalRequestTemplate);
             return Ok(new { Id = result, Message = $"Training {model.TrainingScheduleId} registered successfully by Employee {model.EmpMail}" });
         }
 
