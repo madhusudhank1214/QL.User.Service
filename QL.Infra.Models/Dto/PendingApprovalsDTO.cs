@@ -12,5 +12,6 @@
         public string Trainer { get; set; }
         public string? VirtualOrInternal { get; set; }
         public bool? IsBuheadApproval { get; set; }
+        public string EmpMail { get; set; }
     }
 }
