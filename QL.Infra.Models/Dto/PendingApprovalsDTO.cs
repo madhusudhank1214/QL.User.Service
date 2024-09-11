@@ -10,5 +10,6 @@
         public DateTime StartDate { get; set; }
         public bool IsCancelled { get; set; }
         public string? VirtualOrInternal { get; set; }
+        public bool? IsBuheadApproval { get; set; }
     }
 }
