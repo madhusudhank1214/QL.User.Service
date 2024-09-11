@@ -312,22 +312,26 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
-        public async Task<bool> ManagerApproval(Guid trainingScheduleId)
+        public async Task<bool> ManagerApproval(Guid trainingScheduleId, string empMail, string?buHeadMail)
         {
             bool result;
             try
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @"select * from [dbo].[REGISTERTRAINING] where [TrainingScheduleId] = @trainingScheduleId";
-                    var training = await connection.QuerySingleOrDefaultAsync(query,new { trainingScheduleId });
+                    var query = @"select * from [dbo].[REGISTERTRAINING] where [TrainingScheduleId] = @trainingScheduleId and [EmpMail]=@empMail";
+                    var training = await connection.QuerySingleOrDefaultAsync(query,new { trainingScheduleId, empMail });
                     if(training != null)
                     {
                         var updateQuery = @"UPDATE [dbo].[REGISTERTRAINING] 
-                               SET [IsManagerApproved] = 1
-                               WHERE [TrainingScheduleId] = @trainingScheduleId";
+                               SET [IsManagerApproved] = 1";
+                        if (!string.IsNullOrEmpty(buHeadMail))
+                        {
+                            updateQuery += ", [BuHeadMail] = @buHeadMail ";
+                        }
+                        updateQuery += "WHERE [TrainingScheduleId] = @trainingScheduleId AND [EmpMail] = @empMail";
 
-                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId });
+                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId, empMail, buHeadMail });
                         return result = rowAffected > 0;
                     }
                 }
@@ -339,22 +343,26 @@ namespace QL.Infra.Repository.InfraRepos
             return false;
         }
 
-        public async Task<bool> BuHeadApproval(Guid trainingScheduleId)
+        public async Task<bool> BuHeadApproval(Guid trainingScheduleId, string empMail, string? buHeadMail)
         {
             bool result;
             try
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @"select * from [dbo].[REGISTERTRAINING] where [TrainingScheduleId] = @trainingScheduleId";
-                    var training = await connection.QuerySingleOrDefaultAsync(query, new { trainingScheduleId });
+                    var query = @"select * from [dbo].[REGISTERTRAINING] where [TrainingScheduleId] = @trainingScheduleId and [EmpMail]=@empMail";
+                    var training = await connection.QuerySingleOrDefaultAsync(query, new { trainingScheduleId, empMail });
                     if (training != null)
                     {
                         var updateQuery = @"UPDATE [dbo].[REGISTERTRAINING] 
-                               SET [IsBuHeadApproved] = 1
-                               WHERE [TrainingScheduleId] = @trainingScheduleId";
+                               SET [IsBuHeadApproved] = 1";
+                        if (!string.IsNullOrEmpty(buHeadMail))
+                        {
+                            updateQuery += ", [BuHeadMail] = @buHeadMail ";
+                        }
+                        updateQuery += "WHERE [TrainingScheduleId] = @trainingScheduleId AND [EmpMail] = @empMail";
 
-                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId });
+                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId, empMail, buHeadMail });
                         return result = rowAffected > 0;
                     }
                 }

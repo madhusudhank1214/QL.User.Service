@@ -103,9 +103,9 @@ namespace UserService.API.Controllers
         }
 
         [HttpPut("ManagerApproval")]
-        public async Task<IActionResult> ManagerApproval(Guid trainingScheduleId)
+        public async Task<IActionResult> ManagerApproval(Guid trainingScheduleId,string empMail, string? buHeadMail)
         {
-            var result = await _qlTrainingsRepository.ManagerApproval(trainingScheduleId);
+            var result = await _qlTrainingsRepository.ManagerApproval(trainingScheduleId,empMail, buHeadMail);
             if (result)
             {
                 return Ok($" Training Id {trainingScheduleId} is approved by manager.");
@@ -115,9 +115,9 @@ namespace UserService.API.Controllers
         }
 
         [HttpPut("BuHeadApproval")]
-        public async Task<IActionResult> BuHeadApproval(Guid trainingScheduleId)
+        public async Task<IActionResult> BuHeadApproval(Guid trainingScheduleId, string empMail, string? buHeadMail)
         {
-            var result = await _qlTrainingsRepository.BuHeadApproval(trainingScheduleId);
+            var result = await _qlTrainingsRepository.BuHeadApproval(trainingScheduleId, empMail, buHeadMail);
             if (result)
             {
                 return Ok($" Training Id {trainingScheduleId} is approved by BuHead.");
