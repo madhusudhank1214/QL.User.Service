@@ -84,9 +84,9 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet("UpcomingTrainings")]
-        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings()
+        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings(string? empMail)
         {
-            return await _qlTrainingsRepository.UpcomingTrainings();
+            return await _qlTrainingsRepository.UpcomingTrainings(empMail);
         }
 
         [HttpPost("FilterTraining")]

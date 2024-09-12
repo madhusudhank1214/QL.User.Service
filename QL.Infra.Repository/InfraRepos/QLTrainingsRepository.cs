@@ -216,7 +216,7 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
-        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings()
+        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings(string? empMail)
         {
             IEnumerable<UpcomingTrainingsDTO> result;
 
@@ -225,8 +225,8 @@ namespace QL.Infra.Repository.InfraRepos
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
                     var spName = "GetUpcomingTrainingsDetails";
-
-                    result = await connection.QueryAsync<UpcomingTrainingsDTO>(spName, commandType: CommandType.StoredProcedure);
+                    var parameter = new { empMail = empMail };
+                    result = await connection.QueryAsync<UpcomingTrainingsDTO>(spName, parameter,commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
