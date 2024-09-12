@@ -113,10 +113,10 @@ namespace UserService.API.Controllers
             var result = await _qlTrainingsRepository.ManagerApproval(trainingScheduleId,empMail, buHeadMail);
             if (result)
             {
-                return Ok($" Training Id {trainingScheduleId} is approved by manager.");
+                return Ok(new {message= $" Training Id {trainingScheduleId} is approved by manager." });
             }
 
-            return BadRequest($"Training Id {trainingScheduleId} not found.");
+            return BadRequest(new {message= $"Training Id {trainingScheduleId} not found." });
         }
 
         [HttpPut("BuHeadApproval")]
@@ -125,10 +125,10 @@ namespace UserService.API.Controllers
             var result = await _qlTrainingsRepository.BuHeadApproval(trainingScheduleId, empMail, buHeadMail);
             if (result)
             {
-                return Ok($" Training Id {trainingScheduleId} is approved by BuHead.");
+                return Ok(new { message = $" Training Id {trainingScheduleId} is approved by BuHead." });
             }
 
-            return BadRequest($"Training Id {trainingScheduleId} not found.");
+            return BadRequest(new { message = $"Training Id {trainingScheduleId} not found." });
         }
 
         [HttpGet("PendingApprovalsForManager")]
