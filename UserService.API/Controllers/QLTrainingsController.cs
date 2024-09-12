@@ -1,5 +1,6 @@
 ﻿using LMSService;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Training;
@@ -115,7 +116,7 @@ namespace UserService.API.Controllers
                 return Ok($" Training Id {trainingScheduleId} is approved by manager.");
             }
 
-            return NotFound($"Training Id {trainingScheduleId} not found.");
+            return BadRequest($"Training Id {trainingScheduleId} not found.");
         }
 
         [HttpPut("BuHeadApproval")]
@@ -127,7 +128,7 @@ namespace UserService.API.Controllers
                 return Ok($" Training Id {trainingScheduleId} is approved by BuHead.");
             }
 
-            return NotFound($"Training Id {trainingScheduleId} not found.");
+            return BadRequest($"Training Id {trainingScheduleId} not found.");
         }
 
         [HttpGet("PendingApprovalsForManager")]
