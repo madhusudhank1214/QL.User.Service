@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using LMSService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Training;
@@ -30,7 +31,8 @@ builder.Services.AddTransient<IValidator<List<ScheduleTraining>>, ListScheduleTr
 
 
 builder.Services.AddTransient<IQLTrainingsRepository, QLTrainingsRepository>();
-
+builder.Services.AddScoped<LMSService.IEmailSender, SmtpEmailSender>();
+builder.Services.Configure<MailserverConfiguration>(builder.Configuration.GetSection("MailserverDev"));
 
 builder.Services.AddCors(options =>
 {
