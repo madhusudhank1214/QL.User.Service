@@ -128,7 +128,6 @@ namespace UserService.API.Controllers
             {
                 return Ok($" Training Id {trainingScheduleId} is rejected by manager.");
             }
-
             return NotFound($"Training Id {trainingScheduleId} not found.");
         }
 
@@ -143,7 +142,6 @@ namespace UserService.API.Controllers
             {
                 return Ok(new { message = $" Training Id {trainingScheduleId} is approved by BuHead." });
             }
-
             return BadRequest(new { message = $"Training Id {trainingScheduleId} not found." });
         }
 
