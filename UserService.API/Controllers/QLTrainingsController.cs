@@ -1,5 +1,6 @@
 ﻿using LMSService;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using QL.Infra.Models.Dto;
 using QL.Infra.Models.Training;
@@ -83,9 +84,9 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet("UpcomingTrainings")]
-        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings()
+        public async Task<IEnumerable<UpcomingTrainingsDTO>> UpcomingTrainings(string? empMail)
         {
-            return await _qlTrainingsRepository.UpcomingTrainings();
+            return await _qlTrainingsRepository.UpcomingTrainings(empMail);
         }
 
         [HttpPost("FilterTraining")]
@@ -112,10 +113,10 @@ namespace UserService.API.Controllers
             var result = await _qlTrainingsRepository.ManagerApproval(trainingScheduleId,empMail, buHeadMail);
             if (result)
             {
-                return Ok($" Training Id {trainingScheduleId} is approved by manager.");
+                return Ok(new {message= $" Training Id {trainingScheduleId} is approved by manager." });
             }
 
-            return NotFound($"Training Id {trainingScheduleId} not found.");
+            return BadRequest(new {message= $"Training Id {trainingScheduleId} not found." });
         }
 
 
@@ -140,10 +141,10 @@ namespace UserService.API.Controllers
             var result = await _qlTrainingsRepository.BuHeadApproval(trainingScheduleId, empMail, buHeadMail);
             if (result)
             {
-                return Ok($" Training Id {trainingScheduleId} is approved by BuHead.");
+                return Ok(new { message = $" Training Id {trainingScheduleId} is approved by BuHead." });
             }
 
-            return NotFound($"Training Id {trainingScheduleId} not found.");
+            return BadRequest(new { message = $"Training Id {trainingScheduleId} not found." });
         }
 
 
