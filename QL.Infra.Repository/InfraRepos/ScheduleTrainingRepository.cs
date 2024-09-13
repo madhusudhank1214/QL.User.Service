@@ -143,6 +143,7 @@ namespace QL.Infra.Repository.InfraRepos
         {
 
             DataTable table = new DataTable();
+            table.Columns.Add("TrainingID", typeof(Guid));
             table.Columns.Add("Topic", typeof(string));
             table.Columns.Add("LearningObjectives", typeof(string));
             table.Columns.Add("ForcusAreas", typeof(string));
