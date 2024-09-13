@@ -118,6 +118,22 @@ namespace UserService.API.Controllers
             return NotFound($"Training Id {trainingScheduleId} not found.");
         }
 
+
+        [HttpPut("ManagerReject")]
+        public async Task<IActionResult> ManagerReject(Guid trainingScheduleId, string empMail, string? buHeadMail)
+        {
+            var result = await _qlTrainingsRepository.ManagerReject(trainingScheduleId, empMail, buHeadMail);
+            if (result)
+            {
+                return Ok($" Training Id {trainingScheduleId} is rejected by manager.");
+            }
+
+            return NotFound($"Training Id {trainingScheduleId} not found.");
+        }
+
+
+
+
         [HttpPut("BuHeadApproval")]
         public async Task<IActionResult> BuHeadApproval(Guid trainingScheduleId, string empMail, string? buHeadMail)
         {
@@ -129,6 +145,20 @@ namespace UserService.API.Controllers
 
             return NotFound($"Training Id {trainingScheduleId} not found.");
         }
+
+
+        [HttpPut("BuHeadReject")]
+        public async Task<IActionResult> BuHeadReject(Guid trainingScheduleId, string empMail, string? buHeadMail)
+        {
+            var result = await _qlTrainingsRepository.BuHeadReject(trainingScheduleId, empMail, buHeadMail);
+            if (result)
+            {
+                return Ok($" Training Id {trainingScheduleId} is rejected by BuHead.");
+            }
+
+            return NotFound($"Training Id {trainingScheduleId} not found.");
+        }
+
 
         [HttpGet("PendingApprovalsForManager")]
         public async Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForManager(string managerMail)
