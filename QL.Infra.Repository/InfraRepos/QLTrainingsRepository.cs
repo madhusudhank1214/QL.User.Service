@@ -374,7 +374,7 @@ namespace QL.Infra.Repository.InfraRepos
             return false;
         }
 
-        public async Task<bool> BuHeadReject(Guid trainingScheduleId, string empMail, string? buHeadMail)
+        public async Task<bool> BuHeadApproval(Guid trainingScheduleId, string empMail, string? buHeadMail)
         {
             bool result;
             try

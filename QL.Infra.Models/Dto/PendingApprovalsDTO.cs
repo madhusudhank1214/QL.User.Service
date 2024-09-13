@@ -16,8 +16,5 @@
         public string? VirtualOrInternal { get; set; }
         public bool? IsBuheadApproval { get; set; }
         public string EmpMail { get; set; }
-        public string duration { get; set; }
-        public string Venuduration { get; set; }
-        public DateTime EndDate { get; set; }
     }
 }
