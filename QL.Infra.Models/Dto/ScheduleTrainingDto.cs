@@ -25,5 +25,6 @@ namespace QL.Infra.Models.Dto
         public bool IsVirtual { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public int Occurence { get; set; }
     }
 }

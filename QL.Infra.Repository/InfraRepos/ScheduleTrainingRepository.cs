@@ -23,7 +23,8 @@ namespace QL.Infra.Repository.InfraRepos
             try
             {
                 var query = @"SELECT ID, TRAININGID, TOPIC, LEARNINGOBJECTIVES, FOCUSAREAS, MODE, VENUDURATION, FACILITATOR, 
-                            ISCANCELLED, FORMAT(STARTDATE, 'dd-MM-yyyy') AS StartDate, FORMAT(ENDDATE, 'dd-MM-yyyy') AS EndDate, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate,IsMandatory
+                            ISCANCELLED, FORMAT(STARTDATE, 'dd-MM-yyyy') AS StartDate, FORMAT(ENDDATE, 'dd-MM-yyyy') AS EndDate, Link, 
+                            ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate, IsMandatory, Occurence
                             FROM [dbo].[TRAININGSCHEDULE]";
                 using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -157,7 +158,7 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("IsVirtual", typeof(bool));
             table.Columns.Add("IsMandatory", typeof(bool));
             table.Columns.Add("Id", typeof(int));            
-            table.Columns.Add("Occurence", typeof(string));
+            table.Columns.Add("Occurence", typeof(int));
 
 
             CultureInfo provider = CultureInfo.InvariantCulture;
