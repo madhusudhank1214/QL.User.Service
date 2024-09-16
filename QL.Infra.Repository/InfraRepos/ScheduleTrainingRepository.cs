@@ -23,7 +23,8 @@ namespace QL.Infra.Repository.InfraRepos
             try
             {
                 var query = @"SELECT ID, TRAININGID, TOPIC, LEARNINGOBJECTIVES, FOCUSAREAS, MODE, VENUDURATION, FACILITATOR, 
-                            ISCANCELLED, STARTDATE, ENDDATE, Link, ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate,IsMandatory
+                            ISCANCELLED, FORMAT(STARTDATE, 'dd-MM-yyyy') AS StartDate, FORMAT(ENDDATE, 'dd-MM-yyyy') AS EndDate, Link, 
+                            ISBUHEADAPPROVAL, ISINTERNAL, ISVirtual, CreatedDate, UpdatedDate, IsMandatory, Occurence
                             FROM [dbo].[TRAININGSCHEDULE]";
                 using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
@@ -143,7 +144,6 @@ namespace QL.Infra.Repository.InfraRepos
         {
 
             DataTable table = new DataTable();
-            table.Columns.Add("TrainingID", typeof(Guid));
             table.Columns.Add("Topic", typeof(string));
             table.Columns.Add("LearningObjectives", typeof(string));
             table.Columns.Add("ForcusAreas", typeof(string));
@@ -157,19 +157,20 @@ namespace QL.Infra.Repository.InfraRepos
             table.Columns.Add("IsInternal", typeof(bool));
             table.Columns.Add("IsVirtual", typeof(bool));
             table.Columns.Add("IsMandatory", typeof(bool));
-            table.Columns.Add("Id", typeof(Guid));            
-            table.Columns.Add("Occurence", typeof(string));
+            table.Columns.Add("Id", typeof(int));            
+            table.Columns.Add("Occurence", typeof(int));
 
 
             CultureInfo provider = CultureInfo.InvariantCulture;
-            
-            string format = "dd-MM-yyyy";
+
+            //string format = "yyyy-MM-dd";
+            string format = "dd-mm-yyyy";
             foreach (var schedule in schedules)
             {
 
                 DateTime startDate = DateTime.ParseExact(schedule.StartDate, format, provider);
                 DateTime endDate = DateTime.ParseExact(schedule.EndDate, format, provider);
-                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), (schedule.IsMandatory.ToUpper() == "YES" ? true : false), new Guid(schedule.Id),schedule.Occurence);
+                table.Rows.Add(schedule.Topic, schedule.LearningObjectives, schedule.FocusAreas, schedule.Mode, schedule.Venuduration, schedule.Facilitator,(schedule.IsCancelled.ToUpper()=="YES"?true:false), startDate, endDate, (schedule.IsBuHeadApproval.ToUpper() == "YES" ? true : false), (schedule.IsInternal.ToUpper() == "YES" ? true : false) , (schedule.IsVirtual.ToUpper() == "YES" ? true : false), (schedule.IsMandatory.ToUpper() == "YES" ? true : false), schedule.Id, schedule.Occurence);
             }
 
             return table;

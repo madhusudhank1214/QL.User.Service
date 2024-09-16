@@ -17,13 +17,14 @@ namespace QL.Infra.Models.Dto
 		public string VenuDuration { get; set; }
         public string Facilitator { get; set; }
         public bool IsCancelled { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 		public string Link { get; set; }
         public bool IsBUHeadApproval { get; set; }
         public bool IsInternal { get; set; }
         public bool IsVirtual { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public int Occurence { get; set; }
     }
 }

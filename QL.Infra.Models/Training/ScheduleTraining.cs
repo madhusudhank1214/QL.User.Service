@@ -22,11 +22,11 @@ namespace QL.Infra.Models.Training
         public string IsBuHeadApproval { get; set; }
         public string IsInternal { get; set; }
         public string IsVirtual { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string IsMandatory { get; set; }
-        public string Occurence { get; set; }
+        public int Occurence { get; set; }
 
     }
         
