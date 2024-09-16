@@ -343,7 +343,7 @@ namespace QL.Infra.Repository.InfraRepos
             return false;
         }
 
-        public async Task<bool> ManagerReject(Guid trainingScheduleId, string empMail, string? buHeadMail)
+        public async Task<bool> ManagerReject(Guid trainingScheduleId, string empMail, string? reason)
         {
             bool result;
             try
@@ -356,13 +356,13 @@ namespace QL.Infra.Repository.InfraRepos
                     {
                         var updateQuery = @"UPDATE [dbo].[REGISTERTRAINING] 
                                SET [IsManagerApproved] = 0";
-                        if (!string.IsNullOrEmpty(buHeadMail))
+                        if (!string.IsNullOrEmpty(reason))
                         {
-                            updateQuery += ", [BuHeadMail] = @buHeadMail ";
+                            updateQuery += ", [Reason] = @reason ";
                         }
                         updateQuery += "WHERE [TrainingScheduleId] = @trainingScheduleId AND [EmpMail] = @empMail";
 
-                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId, empMail, buHeadMail });
+                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId, empMail, reason });
                         return result = rowAffected > 0;
                     }
                 }
@@ -404,7 +404,7 @@ namespace QL.Infra.Repository.InfraRepos
             }
             return false;
         }
-        public async Task<bool> BuHeadReject(Guid trainingScheduleId, string empMail, string? buHeadMail)
+        public async Task<bool> BuHeadReject(Guid trainingScheduleId, string empMail, string? buHeadMail,string? reason)
         {
             bool result;
             try
@@ -416,14 +416,18 @@ namespace QL.Infra.Repository.InfraRepos
                     if (training != null)
                     {
                         var updateQuery = @"UPDATE [dbo].[REGISTERTRAINING] 
-                               SET [IsBuHeadApproved] = 0";
+                               SET [IsBuHeadApproved] = 0 ";
                         if (!string.IsNullOrEmpty(buHeadMail))
                         {
                             updateQuery += ", [BuHeadMail] = @buHeadMail ";
                         }
-                        updateQuery += "WHERE [TrainingScheduleId] = @trainingScheduleId AND [EmpMail] = @empMail";
+                        if (!string.IsNullOrEmpty(reason))
+                        {
+                            updateQuery += ", [Reason] = @reason ";
+                        }
+                        updateQuery += "WHERE [TrainingScheduleId] = @trainingScheduleId AND [EmpMail] = @empMail" ;
 
-                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId, empMail, buHeadMail });
+                        var rowAffected = await connection.ExecuteAsync(updateQuery, new { trainingScheduleId, empMail, buHeadMail, reason });
                         return result = rowAffected > 0;
                     }
                 }

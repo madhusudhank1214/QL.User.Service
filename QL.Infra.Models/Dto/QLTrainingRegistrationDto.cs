@@ -21,6 +21,6 @@ namespace QL.Infra.Models.Dto
         public bool IsAttended { get; set; }
         public bool Iscancelled { get; set; }
         public Guid TrainingScheduleId {  get; set; }
-	   
+
     }
 }

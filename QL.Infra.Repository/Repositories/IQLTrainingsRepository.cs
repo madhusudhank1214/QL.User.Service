@@ -21,9 +21,9 @@ namespace QL.Infra.Repository.Repositories
         Task<IEnumerable<EmployeesRegisteredToTraining>> GetEmployeesRegisteredToTraining(Guid trainingId);
         Task<IEnumerable<OptedTrainingsDTO>> OptedTrainings(string employeeMail);
         Task<bool> ManagerApproval(Guid trainingScheduleId,string empMail,string? buHeadMail);
-        Task<bool> ManagerReject(Guid trainingScheduleId, string empMail, string? buHeadMail);
+        Task<bool> ManagerReject(Guid trainingScheduleId, string empMail, string? reason);
         Task<bool> BuHeadApproval(Guid trainingScheduleId, string empMail, string? buHeadMail);
-        Task<bool> BuHeadReject(Guid trainingScheduleId, string empMail, string? buHeadMail);
+        Task<bool> BuHeadReject(Guid trainingScheduleId, string empMail, string? buHeadMail, string? reason);
         Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForManager(string managerMail);
         Task<IEnumerable<PendingApprovalsDTO>> PendingApprovalsForBUHead();
         Task<IEnumerable<CompletedTrainingsDTO>> CompletedTrainingsByEmployee(string empMail);
