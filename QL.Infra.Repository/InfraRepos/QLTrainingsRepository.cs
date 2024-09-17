@@ -245,8 +245,6 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 var parameters = new
                 {
-                    EmpName= filterRequest.EmpName,
-                    EmpMail= filterRequest.EmpMail,
                     StartDate= filterRequest.StartDate,
                     EndDate= filterRequest.EndDate,
                     Topic= filterRequest.Topic,
