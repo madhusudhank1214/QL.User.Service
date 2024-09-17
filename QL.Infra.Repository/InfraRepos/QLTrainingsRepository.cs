@@ -237,14 +237,16 @@ namespace QL.Infra.Repository.InfraRepos
             return result;
         }
 
-        public async Task<IEnumerable<QLTrainingsDto>> FilterTraining(FilterRequest filterRequest)
+        public async Task<IEnumerable<FilterResponse>> FilterTraining(FilterRequest filterRequest)
         {
-            IEnumerable<QLTrainingsDto> result;
+            IEnumerable<FilterResponse> result;
 
             try
             {
                 var parameters = new
                 {
+                    EmpName= filterRequest.EmpName,
+                    EmpMail= filterRequest.EmpMail,
                     StartDate= filterRequest.StartDate,
                     EndDate= filterRequest.EndDate,
                     Topic= filterRequest.Topic,
@@ -256,7 +258,7 @@ namespace QL.Infra.Repository.InfraRepos
                 {
                     connection.Open();
                     var spName = "TrainingFilter";
-                    result = await connection.QueryAsync<QLTrainingsDto>(spName, parameters, commandType: CommandType.StoredProcedure);
+                    result = await connection.QueryAsync<FilterResponse>(spName, parameters, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
