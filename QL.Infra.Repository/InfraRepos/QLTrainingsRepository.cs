@@ -5,6 +5,7 @@ using QL.Infra.Models.Training;
 using QL.Infra.Repository.Repositories;
 using System.Data.SqlClient;
 using System.Data;
+using static QL.Infra.Repository.InfraRepos.QLTrainingsRepository;
 
 namespace QL.Infra.Repository.InfraRepos
 {
@@ -277,11 +278,9 @@ namespace QL.Infra.Repository.InfraRepos
             {
                 using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
                 {
-                    var query = @"SELECT EmpMail, EmpName, IsAttended
-                                FROM DBO.REGISTERTRAINING 
-                                WHERE TrainingScheduleId = @trainingId";
-
-                    result = await connection.QueryAsync<EmployeesRegisteredToTraining>(query, new { @trainingId });
+                    var parameters = new { TrainingId = trainingId };
+                    var spName = "GetEmployeesRegisteredToTraining";
+                    result = await connection.QueryAsync<EmployeesRegisteredToTraining>(spName, parameters, commandType: CommandType.StoredProcedure);
                 }
             }
             catch (Exception)
@@ -579,7 +578,49 @@ namespace QL.Infra.Repository.InfraRepos
             }
         }
 
-       
+        public async Task<InboxResponseDto> GetInboxAsync(InboxRequest request)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
+                {
+                    var parameters = new
+                    {
+                        IsAdmin = request.IsAdmin,
+                        IsEmployee = request.IsEmployee,
+                        EmpMail = request.EmpMail,
+                        IsManager = request.IsManager,
+                        IsBUHead = request.IsBUHead,
+                        ManagerEmail = request.ManagerEmail
+                    };
+
+                    if(request.IsAdmin || request.IsEmployee)
+                    {
+                        using (var multi = await connection.QueryMultipleAsync("Inbox", parameters, commandType: CommandType.StoredProcedure))
+                        {
+                            var upcomingTrainings = await multi.ReadAsync<UpcomingInboxResponse>();
+
+                            var feedbackTrainings = await multi.ReadAsync<FeedbackInboxResponse>();
+
+                            return new InboxResponseDto
+                            {
+                                UpcomingTrainings = upcomingTrainings,
+                                FeedbackTrainings = feedbackTrainings,
+                            };
+                        }
+                    }
+
+                    var check = request.IsManager ? await PendingApprovalsForManager(request.ManagerEmail)
+                                : (request.IsBUHead ? await PendingApprovalsForBUHead() : Enumerable.Empty<PendingApprovalsDTO>());
+
+                    return new InboxResponseDto { PendingApprovals = check};                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

@@ -5,5 +5,6 @@
         public string EmpMail { get; set; }
         public string EmpName { get; set; }
         public bool IsAttended { get; set; }
+        public string Duration { get; set; }
     }
 }

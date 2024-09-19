@@ -96,9 +96,16 @@ namespace UserService.API.Controllers
         }
 
         [HttpGet("GetEmployeesRegisteredToTraining")]
-        public async Task<IEnumerable<EmployeesRegisteredToTraining>> GetEmployeesRegisteredToTraining(Guid trainingId)
+        public async Task<IActionResult> GetEmployeesRegisteredToTraining(Guid trainingId)
         {
-            return await _qlTrainingsRepository.GetEmployeesRegisteredToTraining(trainingId);
+            var result = await _qlTrainingsRepository.GetEmployeesRegisteredToTraining(trainingId);
+
+            if (!result.Any())
+            {
+                return NotFound(new { message = $"No employees registered to this training {trainingId}" });
+            }
+
+            return Ok(result);
         }
 
         [HttpGet("OptedTrainings")]
@@ -192,6 +199,31 @@ namespace UserService.API.Controllers
         public async Task<IEnumerable<BuHeadDetailDto>> GetBuHeadDetails()
         {
             return await _qlTrainingsRepository.GetBuHeadDetails();
+        }
+
+        [HttpGet("GetInbox")]
+        public async Task<IActionResult> GetInbox([FromQuery]InboxRequest request)
+        {
+            if (!request.IsAdmin && !request.IsEmployee && !request.IsManager && !request.IsBUHead)
+            {
+                return BadRequest(new { message = "At least one role (Admin, Employee, Manager, or BUHead) must be specified." });
+            }
+
+            if ((request.IsEmployee && string.IsNullOrEmpty(request.EmpMail)) ||
+                (request.IsManager && string.IsNullOrEmpty(request.ManagerEmail)))
+            {
+                var missingField = request.IsEmployee ? "EmpMail" : "ManagerEmail";
+                return BadRequest(new { message = $"Please enter {missingField}" });
+            }
+            
+            var result = await _qlTrainingsRepository.GetInboxAsync(request);
+
+            if (request.IsManager || request.IsBUHead)
+            {
+                return Ok(new { PendingApprovals = result.UpcomingTrainings });
+            }
+
+            return Ok(new { result.UpcomingTrainings, result.FeedbackTrainings });
         }
     }
 }
